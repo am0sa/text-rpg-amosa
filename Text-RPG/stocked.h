@@ -10,12 +10,27 @@
 #ifndef stocked_h
 #define stocked_h
 
-class stocked: public items:
+class Stocked : public Item :
+{
+public:
+	Stocked();
+	~Stocked();
 
-int wallet = 0;
+protected:
+	int itemCount;
 
-int stockSize = 1;
+	//GET
+	inline int GetItemCount() { return itemCount; } const
+
+	//SET
+	void SetItemCount(int _itemCount) { itemCount = _itemCount; }
+
+	void Transfer();
+	void ItemCount();
+
+public:
 
 
+}
 
 #endif /* stocked_h */

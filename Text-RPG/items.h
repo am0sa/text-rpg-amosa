@@ -8,10 +8,25 @@
 #ifndef items_h
 #define items_h
 
-class items:
+class Item
+{
+public:
+	Item();
+	~Item(); 
 
-int worth = 0;
-string name = "";
+protected:
+	int value;
 
+	//GET
+	inline int GetValue() { return value; }
+
+	//SET
+	inline void SetValue() { return value; }
+
+	void Transfer();
+
+private:
+
+};
 
 #endif /* items_h */
