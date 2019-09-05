@@ -29,8 +29,6 @@ protected:
 	void ItemCount();
 
 public:
-
-
 }
 
 #endif /* stocked_h */

@@ -16,12 +16,15 @@ public:
 
 protected:
 	int value;
-
+    bool keyItem = false;
 	//GET
 	inline int GetValue() { return value; }
+    inline bool GetKeyItem() { return keyItem; }
+    
 
 	//SET
-	inline void SetValue() { return value; }
+	inline void SetValue(int _value) { value = _value; }
+    inline bool SetKeyItem(bool _keyItem) { keyItem = _keyItem; }
 
 	void Transfer();
 

@@ -9,7 +9,38 @@
 
 int main()
 {
-    std::cout << "Text RPG!\n";
+    cout << "Text RPG!\n";
+    
+    enum GameState = { "RoomProgress", "Battle", "Choice", "Menu" };
+    
+    do
+    {
+        
+        switch (GameState)
+        {
+            case RoomProgress:
+                //Test
+                break;
+                
+            case Battle:
+                //Test
+                break;
+                
+            case Choice:
+                //Test
+                break;
+                
+            case Menu:
+                //Test
+                break;
+                
+            default:
+                break;
+        }
+        
+        
+    } while (Running = true);
+    
 	return 0;
 }
 
