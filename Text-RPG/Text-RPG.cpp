@@ -1,5 +1,6 @@
 // Text-RPG.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+using namespace std;
 
 #include <iostream>
 #include "being.h"
@@ -9,14 +10,17 @@
 
 int main()
 {
+	bool running = false; //DEBUG ONE LOOP
+
     cout << "Text RPG!\n";
     
-    enum GameState = { "RoomProgress", "Battle", "Choice", "Menu" };
+    enum GameState { RoomProgress, Battle, Choice, Menu };
     
+	int gameState = Menu;
+
     do
     {
-        
-        switch (GameState)
+		switch (gameState)
         {
             case RoomProgress:
                 //Test
@@ -31,7 +35,7 @@ int main()
                 break;
                 
             case Menu:
-                //Test
+				cout << "Enum Test\n\n";
                 break;
                 
             default:
@@ -39,7 +43,7 @@ int main()
         }
         
         
-    } while (Running = true);
+    } while (running == true);
     
 	return 0;
 }

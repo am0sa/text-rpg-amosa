@@ -1,28 +1,19 @@
-//
-//  being.h
-//  
-//
-//  Created by Amosa Osayande on 2019-09-03.
-//
-
-#include "stocked.h"
-
 #ifndef being_h
 #define being_h
 
-#include <iostream>
+#include "stocked.h"
 
-class Being : public Stocked: 
+class Being : public Stocked
 {
 public:
 	Being();
-	~Being(); 
+	~Being();
 
 protected:
-	int health = 100;
+	int health;
 	int speed;
 	int luck;
-	int strength;
+	int strength; 
 
 	//GET
 	inline int GetHealth() { return health; } const
@@ -39,10 +30,5 @@ protected:
 	void Attack();
 
 private:
-
 };
-
-
-//create vector class for items
-
 #endif /* being_h */
