@@ -9,6 +9,5 @@ C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\sto
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(23,13): error C4430:  missing type specifier - int assumed. Note: C++ does not support default-int
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(23,20): error C2238:  unexpected token(s) preceding ';'
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(28,50): error C2061:  syntax error: identifier 'vector'
-  Text-RPG.cpp
   Generating Code...
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(28,62): error C2065:  'stock': undeclared identifier
