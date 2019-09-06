@@ -6,7 +6,6 @@ using namespace std;
 #include "player.h"
 #include "stocked.h"
 
-#include <iostream>
 
 int main()
 {
@@ -18,15 +17,17 @@ int main()
     
 	int gameState = Menu;
 
-	//Player player;
+	Player player;
+
+	player.SetHealth(50);
+
+	cout << "The player's health is: "<< player.GetSpeed() << endl;
 
 
 
 
     do
     {
-
-
 		//cout << player.GetHealth();
 
 		switch (gameState)
@@ -55,6 +56,12 @@ int main()
     } while (running == true);
 	return 0;
 }
+
+
+
+
+
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

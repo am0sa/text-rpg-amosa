@@ -4,31 +4,142 @@
 #define beinginput_h
 
 #include "stocked.h"
+#include <iostream>
 
 class Being : public Stocked
 {
 public:
-	Being();
-	~Being();
+	Being() {};
+	Being(string input_name, int input_health, int input_speed, int input_luck, int input_strength) 
+	{
+		SetName(input_name);
+		SetHealth(input_health);
+		SetSpeed(input_speed);
+		SetStrength(input_strength);
+	}
 
-public:
-	int health;
-	int speed;
-	int luck;
-	int strength; 
+	string name = "";
+	int health = 0;
+	int speed = 0;
+	int luck = 0;
+	int strength = 0; 
 
 	//GET
+	inline string GetName() { return name; } const
 	inline int GetHealth() { return health; } const
 	inline int GetSpeed() { return speed; } const
 	inline int GetStrength() { return strength; } const
 	inline int GetLuck() { return luck; }  const
 
 	//SET
+	inline void SetName(string input_name) { name = input_name; }
 	inline void SetHealth(int input_health) { health = input_health; }
 	inline void SetSpeed(int input_speed) { speed = input_speed; }
 	inline void SetStrength(int input_strength) { strength = input_strength; }
 	inline void SetLuck(int input_luck) { luck = input_luck; }
 
+	int ItemCounter(Item search, Being& ownerStock)									//Returns the count of an item in the merchants stock
+	{
+		int temp = 0;
+		string temp_name = search.GetName();
+
+		for (unsigned int i = 0; i < ownerStock.stock.size(); i++)
+		{
+			if ((ownerStock.stock[i]).GetName() == temp_name)
+			{
+				temp++;
+			}
+		}
+		return temp;
+	}
+
+	int PrintStock(Being owner)
+	{
+		cout << endl << owner.GetName() << "'s stock contains:\n";
+
+		for (int i = 0; i < owner.stock.size(); i++)
+		{
+			cout << owner.stock[i].GetName();
+		}
+
+		cout << endl << endl;
+		return 0;
+	}
+
+	bool EnoughStock(Item item, int quantity, Being& owner)	//Checks the owners stock for item quantity before Transfer() can be used
+	{
+		bool ans = false;
+
+		if (ItemCounter(item, owner) >= quantity)
+		{
+			ans = true;
+		}
+		else
+		{
+			ans = false;
+		}
+		return ans;
+	}
+
+	bool EnoughDosh(Item item, int count, Being& merchant, Being& buyer)	//Checks the buyers Do$h based on price and item to buy
+	{
+		bool ans = false;
+		int i = 0;
+		int j = count;
+		int tempPrice = 0;
+
+		for (; i < merchant.stock.size(); i++)
+		{
+			if (item.GetName() == merchant.stock[i].GetName())
+			{
+				tempPrice += count * (merchant.stock[i].GetValue());
+				j--;
+			}
+
+			if (j <= 0)
+			{
+				break;
+			}
+		}
+
+		if (buyer.GetValue() >= tempPrice)
+		{
+			//buySell = (count * tempPrice);
+			ans = true;
+		}
+		else
+		{
+			ans = false;
+			cout << "\n\n>>>>>>>>>>NOT ENOUGH DOSH!!!!<<<<<<<<<<\n\t\t:(\n\n";
+		}
+
+		return ans;
+	}
+
+	void Transfer(Item item, int count, Being& takeFrom, Being& giveTo)		//Moves a number of items to owner from other character in trade
+	{
+		int initialItemCount = ItemCounter(item, takeFrom);
+		int i = 0;
+		int tracker = count;
+		string temp = item.GetName();
+		do
+		{
+			if (takeFrom.stock[i].GetName() == temp)
+			{
+				giveTo.stock.push_back(takeFrom.stock[i]);
+				takeFrom.stock.erase(takeFrom.stock.begin() + i);
+				tracker--;
+			}
+
+			i++;
+
+			if (i >= takeFrom.stock.size())
+			{
+				i = 0;
+			}
+
+		} while (tracker > 0);
+	}
 	//void Attack();
 };
 #endif /* beinginput_h */

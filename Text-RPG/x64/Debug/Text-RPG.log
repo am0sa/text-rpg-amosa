@@ -1,13 +1,2 @@
-﻿  mimic.cpp
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(23,8): error C2143:  syntax error: missing ';' before '<'
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(23,13): error C4430:  missing type specifier - int assumed. Note: C++ does not support default-int
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(23,20): error C2238:  unexpected token(s) preceding ';'
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(28,50): error C2061:  syntax error: identifier 'vector'
-  player.cpp
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(28,62): error C2065:  'stock': undeclared identifier
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(23,8): error C2143:  syntax error: missing ';' before '<'
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(23,13): error C4430:  missing type specifier - int assumed. Note: C++ does not support default-int
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(23,20): error C2238:  unexpected token(s) preceding ';'
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(28,50): error C2061:  syntax error: identifier 'vector'
-  Generating Code...
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\stocked.h(28,62): error C2065:  'stock': undeclared identifier
+﻿  Text-RPG.cpp
+  Text-RPG.vcxproj -> C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\x64\Debug\Text-RPG.exe

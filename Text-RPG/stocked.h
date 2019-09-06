@@ -16,21 +16,23 @@
 class Stocked : public Item
 {
 public:
-	Stocked();
-	~Stocked();
+	std::vector<Item> stock;
 
-public:
-	vector<Item> stock;
+	Stocked() {};
+	
+	Stocked(vector<Item> input_stock)
+	{
+		stock = input_stock;
+	}
+
 
 	//GET
 
 	//SET
-	inline void AddItem(Item input_item, vector<Item> &stock) { stock.push_back(input_item); }
+	inline void AddItem(Item input_item, std::vector<Item> &item) { item.push_back(input_item); }
 
-	//void Transfer();
-	//void ItemCount();
 
-public:
+
 };
 
 #endif // !stocked_h
