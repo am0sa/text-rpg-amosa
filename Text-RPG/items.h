@@ -15,6 +15,10 @@ using namespace std;
 class Item
 {
 public:
+	int value = 0;
+	string itemName = "";
+	bool keyItem = false; 
+	
 	Item() {};
 	Item(string input_name, int input_value, bool isKeyItem)
 	{
@@ -23,9 +27,6 @@ public:
 		SetKeyItem(isKeyItem);
 	}
 
-	int value = 0;
-	string itemName = "";
-    bool keyItem = false;
 	//GET
 	inline int GetValue() { return value; }
 	inline string GetName() { return itemName; }
@@ -36,12 +37,6 @@ public:
 	inline void SetValue(int input_value) { value = input_value; }
 	inline void SetItemName(string input_name) { itemName = input_name; }
     inline void SetKeyItem(bool input_keyItem) { keyItem = input_keyItem; }
-
-	//void Transfer();
-
-
-
-
 
 };
 

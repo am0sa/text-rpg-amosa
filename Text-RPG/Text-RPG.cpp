@@ -10,26 +10,16 @@ using namespace std;
 
 int main()
 {
+	//Gamewide Variables
 	bool running = false; //DEBUG ONE LOOP
-
-    cout << "Text RPG!\n";
-    
-    enum GameState { RoomProgress, Battle, Choice, Menu };
-    
+	enum GameState { RoomProgress, Battle, Choice, Menu };
 	int gameState = Menu;
-
+	
+	//Gamewide Objects and Key Items
 	Player player;
-	Enemy mimic;
+	
+	cout << "Amosa's Text RPG!\n\n";
 
-	mimic.SetName("Mimic");
-
-	mimic.attack(player);
-
-	player.attack(mimic);
-
-	cout << "\nMimic Health: " << mimic.GetHealth();
-
-	cout << "\nPlayer Health: " << player.GetHealth();
 
 
 
@@ -64,6 +54,39 @@ int main()
         
     } while (running == true);
 	return 0;
+}
+
+
+bool Room1()
+{
+
+
+
+	return true;
+}
+
+bool Room2()
+{
+
+
+
+	return true;
+}
+
+bool Room3()
+{
+
+
+
+	return true;
+}
+
+bool Room4()
+{
+
+
+
+	return true;
 }
 
 

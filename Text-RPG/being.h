@@ -147,9 +147,13 @@ public:
 	
 	
 	//Battle Functions
-	virtual void Attack()
+	virtual void Attack(Being& target)
 	{
-		cout << "\n\nAttack!!\n\n";
+		int damage = 0;
+		srand(time(NULL));
+		damage = GetStrength() * GetSpeed() + (GetLuck() * rand() % 101);
+		target.SetHealth(target.GetHealth() - damage);
+		cout << GetName() << "Attacked!!!\n";
 	}
 
 	virtual void Escape()
