@@ -1,2 +1,3 @@
-﻿  Text-RPG.cpp
-  Text-RPG.vcxproj -> C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Debug\Text-RPG.exe
+﻿Text-RPG.obj : error LNK2019: unresolved external symbol "public: __thiscall Player::Player(void)" (??0Player@@QAE@XZ) referenced in function _main
+Text-RPG.obj : error LNK2019: unresolved external symbol "public: __thiscall Player::~Player(void)" (??1Player@@QAE@XZ) referenced in function _main
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Debug\Text-RPG.exe : fatal error LNK1120: 2 unresolved externals

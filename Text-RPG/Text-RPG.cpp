@@ -3,7 +3,7 @@
 using namespace std;
 
 #include <iostream>
-#include "being.h"
+#include "player.h"
 #include "stocked.h"
 
 #include <iostream>
@@ -18,8 +18,17 @@ int main()
     
 	int gameState = Menu;
 
+	//Player player;
+
+
+
+
     do
     {
+
+
+		//cout << player.GetHealth();
+
 		switch (gameState)
         {
             case RoomProgress:
@@ -44,7 +53,6 @@ int main()
         
         
     } while (running == true);
-    
 	return 0;
 }
 

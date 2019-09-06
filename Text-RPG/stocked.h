@@ -4,11 +4,14 @@
 //
 //  Created by Amosa Osayande on 2019-09-03.
 //
+#pragma once
 
 #ifndef stocked_h
 #define stocked_h
 
 #include "items.h"
+
+#include <vector>
 
 class Stocked : public Item
 {
@@ -16,17 +19,16 @@ public:
 	Stocked();
 	~Stocked();
 
-protected:
-	int itemCount;
+public:
+	vector<Item> stock;
 
 	//GET
-	inline int GetItemCount() { return itemCount; } const
 
-		//SET
-		void SetItemCount(int _itemCount) { itemCount = _itemCount; }
+	//SET
+	inline void AddItem(Item input_item, vector<Item> &stock) { stock.push_back(input_item); }
 
-	void Transfer();
-	void ItemCount();
+	//void Transfer();
+	//void ItemCount();
 
 public:
 };

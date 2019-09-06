@@ -1,5 +1,7 @@
-#ifndef being_h
-#define being_h
+#pragma once
+
+#ifndef beinginput_h
+#define beinginput_h
 
 #include "stocked.h"
 
@@ -9,7 +11,7 @@ public:
 	Being();
 	~Being();
 
-protected:
+public:
 	int health;
 	int speed;
 	int luck;
@@ -22,13 +24,11 @@ protected:
 	inline int GetLuck() { return luck; }  const
 
 	//SET
-	inline void SetHealth(int _health) { health = _health; }
-	inline void SetSpeed(int _speed) { speed = _speed; }
-	inline void SetStrength(int _strength) { strength = _strength; }
-	inline void SetLuck(int _luck) { luck = _luck; }
+	inline void SetHealth(int input_health) { health = input_health; }
+	inline void SetSpeed(int input_speed) { speed = input_speed; }
+	inline void SetStrength(int input_strength) { strength = input_strength; }
+	inline void SetLuck(int input_luck) { luck = input_luck; }
 
-	void Attack();
-
-private:
+	//void Attack();
 };
-#endif /* being_h */
+#endif /* beinginput_h */

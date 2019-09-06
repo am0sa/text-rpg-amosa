@@ -4,9 +4,9 @@
 //
 //  Created by Amosa Osayande on 2019-09-03.
 //
-
-#ifndef items_h
-#define items_h
+#pragma once
+#ifndef itemsinput_h
+#define itemsinput_h
 
 class Item
 {
@@ -23,13 +23,13 @@ protected:
     
 
 	//SET
-	inline void SetValue(int _value) { value = _value; }
-    inline bool SetKeyItem(bool _keyItem) { keyItem = _keyItem; }
+	inline void SetValue(int input_value) { value = input_value; }
+    inline bool SetKeyItem(bool input_keyItem) { keyItem = input_keyItem; }
 
-	void Transfer();
+	//void Transfer();
 
 private:
 
 };
 
-#endif /* items_h */
+#endif /* itemsinput_h */

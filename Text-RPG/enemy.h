@@ -6,6 +6,8 @@
 
 class Enemy : public Being
 {
-
+public:
+	Enemy();
+	~Enemy();
 };
 #endif // !enemy
