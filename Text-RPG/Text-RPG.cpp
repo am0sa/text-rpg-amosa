@@ -5,6 +5,7 @@ using namespace std;
 #include <iostream>
 #include "player.h"
 #include "stocked.h"
+#include "enemy.h"
 
 
 int main()
@@ -18,10 +19,18 @@ int main()
 	int gameState = Menu;
 
 	Player player;
+	Enemy mimic;
 
-	player.SetHealth(50);
+	mimic.SetName("Mimic");
 
-	cout << "The player's health is: "<< player.GetSpeed() << endl;
+	mimic.attack(player);
+
+	player.attack(mimic);
+
+	cout << "\nMimic Health: " << mimic.GetHealth();
+
+	cout << "\nPlayer Health: " << player.GetHealth();
+
 
 
 

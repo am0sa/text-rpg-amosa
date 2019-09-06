@@ -1,2 +1,4 @@
 ﻿  Text-RPG.cpp
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(15,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\enemy.h(22,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Text-RPG.vcxproj -> C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\x64\Debug\Text-RPG.exe

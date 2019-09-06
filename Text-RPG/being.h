@@ -5,6 +5,8 @@
 
 #include "stocked.h"
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 
 class Being : public Stocked
 {
@@ -38,6 +40,8 @@ public:
 	inline void SetStrength(int input_strength) { strength = input_strength; }
 	inline void SetLuck(int input_luck) { luck = input_luck; }
 
+
+	//Item and Inventory Functions
 	int ItemCounter(Item search, Being& ownerStock)									//Returns the count of an item in the merchants stock
 	{
 		int temp = 0;
@@ -140,6 +144,22 @@ public:
 
 		} while (tracker > 0);
 	}
-	//void Attack();
+	
+	
+	//Battle Functions
+	virtual void Attack()
+	{
+		cout << "\n\nAttack!!\n\n";
+	}
+
+	virtual void Escape()
+	{
+		cout << "\n\nEscape!!\n\n";
+	}
+
+	virtual void Guard()
+	{
+		cout << "\n\nGuard!!\n\n";
+	}
 };
 #endif /* beinginput_h */
