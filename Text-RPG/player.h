@@ -16,13 +16,44 @@ public:
 
 	~Player() {}
 
-	void attack(Being& enemy)
+	void Attack(Being& enemy)
 	{
 		int damage = 0;
 		srand(time(NULL));
 		damage = GetStrength() * GetSpeed() + (GetLuck() * rand()%101) ;
 		cout << "\nYou attacked " << enemy.GetName() << " and dealt " << damage << " damage!!!\n";
-		enemy.SetHealth(enemy.GetHealth() - damage);
+		
+		if (damage > enemy.GetHealth())
+		{
+			enemy.SetHealth(0);
+		}
+		else
+		{
+			enemy.SetHealth(enemy.GetHealth() - damage);
+		}
 	}
+
+	void Heal() 
+	{
+		SetHealth((GetHealth() + 35));
+	}
+
+	bool Escape()
+	{
+		bool result = false;
+		srand(time(NULL));
+		result = ((GetSpeed() * (rand() % 11)) >= 50);
+
+		if (result)
+		{
+			cout << "\n\nEscape Failed!!\n\n";
+		}
+		else
+		{
+			cout << "\nYou escaped!!!\n";
+		}
+		return result;
+	}
+
 };
 #endif // !player_h

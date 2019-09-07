@@ -18,6 +18,7 @@ public:
 	int value = 0;
 	string itemName = "";
 	bool keyItem = false; 
+	bool equipped = false;
 	
 	Item() {};
 	Item(string input_name, int input_value, bool isKeyItem)
@@ -39,7 +40,5 @@ public:
     inline void SetKeyItem(bool input_keyItem) { keyItem = input_keyItem; }
 
 };
-
-
 
 #endif /* itemsinput_h */

@@ -31,8 +31,6 @@ public:
 	//SET
 	inline void AddItem(Item input_item, std::vector<Item> &item) { item.push_back(input_item); }
 
-
-
 };
 
 #endif // !stocked_h

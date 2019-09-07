@@ -152,18 +152,29 @@ public:
 		int damage = 0;
 		srand(time(NULL));
 		damage = GetStrength() * GetSpeed() + (GetLuck() * rand() % 101);
-		target.SetHealth(target.GetHealth() - damage);
-		cout << GetName() << "Attacked!!!\n";
+		if (damage > target.GetHealth())
+		{
+			target.SetHealth(0);
+		}
+		else
+		{
+			target.SetHealth(target.GetHealth() - damage);
+		}		cout << GetName() << " Attacked!!!\n";
 	}
 
-	virtual void Escape()
+	virtual bool Guard()
 	{
-		cout << "\n\nEscape!!\n\n";
+		cout << "\n\nGuarding!!\n\n";
+		return true;
 	}
 
-	virtual void Guard()
+	virtual bool Escape()
 	{
-		cout << "\n\nGuard!!\n\n";
+		bool result = false;
+		srand(time(NULL));
+		result = ((GetSpeed() * (rand() % 11)) >= 50);
+		cout << endl << GetName() << " Escaped!!!\n";
+		return result;
 	}
 };
 #endif /* beinginput_h */
