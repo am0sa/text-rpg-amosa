@@ -32,13 +32,14 @@ public:
 	inline int GetValue() { return value; }
 	inline string GetName() { return itemName; }
     inline bool GetKeyItem() { return keyItem; }
+	inline bool IsEquipped() { return equipped; }
     
 
 	//SET
 	inline void SetValue(int input_value) { value = input_value; }
 	inline void SetItemName(string input_name) { itemName = input_name; }
     inline void SetKeyItem(bool input_keyItem) { keyItem = input_keyItem; }
-
+	inline void SetIsEquipped(bool input_isEquipped) { equipped = input_isEquipped; }
 };
 
 #endif /* itemsinput_h */

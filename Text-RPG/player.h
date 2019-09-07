@@ -8,7 +8,7 @@ class Player : public Being
 public:
 	Player()
 	{
-		SetHealth(150);
+		SetHealth(1500);
 		SetSpeed(5);
 		SetStrength(5);
 		SetLuck(1);
@@ -43,12 +43,11 @@ public:
 
 		cout << "\nPlayer Health: " << GetHealth() << endl << endl;
 		cout << enemy.GetName() << " Health: " << enemy.GetHealth() << endl << endl;
-		cout << "\n\n";
 	}
 
 	void Heal() 
 	{
-		SetHealth((GetHealth() + 35));
+		SetHealth((GetHealth() + 235));
 	}
 
 	bool Escape()

@@ -26,7 +26,7 @@ public:
 			if (Dodge(player, GetSpeed()))
 			{
 				damage = 0;
-				cout << endl << "You dodged " << GetName() << "'s attack!!!\n\n";
+				cout << endl << "You dodged " << GetName() << "'s attack!!!\n";
 			}
 			else
 			{
@@ -35,7 +35,7 @@ public:
 			}
 
 
-			if (damage > player.GetHealth())
+			if (damage >= player.GetHealth())
 			{
 				player.SetHealth(0);
 			}
@@ -48,7 +48,7 @@ public:
 			cout << GetName() << " Health: " << GetHealth() << endl << endl;
 
 			system("PAUSE");
-			cout << "\n\n";
+			cout << "\n";
 		}
 		else
 		{

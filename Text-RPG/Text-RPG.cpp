@@ -12,11 +12,12 @@ inline void Print(string text) { cout << text; }
 
 void PrintStats(Being& query)
 {
-	cout << "\nHealth: " << query.GetHealth();
-	cout << "\nSpeed: " << query.GetSpeed();
-	cout << "\nStrength: " << query.GetStrength();
-	cout << "\nLuck: " << query.GetLuck();
-	cout << endl;
+	cout << "\n\tName: " << query.GetName();
+	cout << "\tHealth: " << query.GetHealth();
+	cout << "\tSpeed: " << query.GetSpeed();
+	cout << "\tStrength: " << query.GetStrength();
+	cout << "\tLuck: " << query.GetLuck();
+	cout << endl << endl;
 }
 
 int GetChoice(string text, int maxChoice = 3)
@@ -156,7 +157,6 @@ void Battle(Player& player, Being& being, Being& being2)
 			turnOrder.push_back(player);
 			turnOrder.push_back(being2);
 			turnOrder.push_back(being);
-
 		}
 		else
 		{
@@ -172,7 +172,6 @@ void Battle(Player& player, Being& being, Being& being2)
 			turnOrder.push_back(player);
 			turnOrder.push_back(being);
 			turnOrder.push_back(being2);
-
 		}
 		else
 		{
@@ -333,8 +332,15 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 
 	}
 
+
+
 	do
 	{
+		PrintStats(player);
+		PrintStats(being);
+		PrintStats(being2);
+		PrintStats(being3);
+ 
 		enemiesAlive = (being.GetHealth() + being2.GetHealth() + being3.GetHealth());
 
 		if (enemiesAlive > 0)
@@ -358,9 +364,13 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 				being2.Attack(player);
 
 			}
+			else if (turnOrder[i].GetName() == being3.GetName())
+			{
+				being3.Attack(player);
+			}
 			else
 			{
-				int tempY = GetChoice("Choose an enemy to focus on this turn", (turnOrder.size() - 1));
+				int tempY = GetChoice("\nChoose an enemy to focus on this turn (1,2, or 3)\n", (turnOrder.size() - 1));
 				int tempX = PlayerTurn();
 				switch (tempY)
 				{
@@ -376,8 +386,12 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 						break;
 
 					case 3:
-						player.Escape();
-						break;
+						if (player.Escape())
+						{
+							battleOver = true;
+							Print("\n\nYou Escaped!!!\n");
+							break;
+						}
 
 					default:
 						break;
@@ -396,8 +410,36 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 						break;
 
 					case 3:
-						player.Escape();
+						if (player.Escape())
+						{
+							battleOver = true;
+							Print("\n\nYou Escaped!!!\n");
+							break;
+						}
+
+					default:
 						break;
+					}
+					break;
+
+				case 3:
+					switch (tempX)
+					{
+					case 1:
+						player.Attack(being3);
+						break;
+
+					case 2:
+						player.Heal();
+						break;
+
+					case 3:
+						if (player.Escape())
+						{
+							battleOver = true;
+							Print("\n\nYou Escaped!!!\n");
+							break;
+						}
 
 					default:
 						break;
@@ -415,13 +457,6 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 
 int main()
 {
-	/*Function Prototypes-------------------------------------------------------
-	bool Room1();
-	bool Room2();
-	bool Room3();
-	bool Room4();
-	*/
-
 	//Gamewide Variables
 	bool running = false; //DEBUG ONE LOOP
 	enum GameState { RoomProgress, InBattle, Choice, Menu };
@@ -435,7 +470,7 @@ int main()
 
 	string entryString = "";
 	
-	Being USED_ITEMS; //ALl used items are transferred to this stock
+	//Being USED_ITEMS; //ALl used items are transferred to this stock
 
 	//ITEM CREATION-------------------------------------------------------------
 	//ITEM CREATION--------------------------------------------------------
@@ -487,7 +522,7 @@ int main()
 	//PLAYER CREATION-----------------------------------------------------------
 	Player player;
 	player.SetValue(1500);
-	cout << "\nEnter your name\n";
+	cout << "Enter your name\n";
 	cin >> entryString;
 	player.SetName(entryString);
 	player.AddItem(healthPotion, player.stock);
@@ -529,6 +564,7 @@ int main()
 
 		startingPoints--;
 	}	
+	PrintStats(player);
 
 	//ENEMY CREATION------------------------------------------------------------
 	Enemy mimic;
@@ -544,14 +580,35 @@ int main()
 	wanderingGhost.SetLuck(30);
 	wanderingGhost.SetSpeed(10);
 
+	Enemy spider1;
+	spider1.SetHealth(175);
+	spider1.SetSpeed(6);
+	spider1.SetStrength(3);
+	spider1.SetLuck(1);
+	spider1.SetName("Spider 1");
+
+
+	Enemy spider2;
+	spider2.SetHealth(120);
+	spider2.SetSpeed(8);
+	spider2.SetStrength(3);
+	spider2.SetLuck(2);
+	spider2.SetName("Spider 2");
+
+	Enemy spiderBoss;
+	spiderBoss.SetHealth(400);
+	spiderBoss.SetSpeed(2);	
+	spiderBoss.SetStrength(7);
+	spiderBoss.SetLuck(3);
+	spiderBoss.SetName("Spider X");
 
 
 	//ROOM 1 BEGINS HERE--------------------------------------------------------
-	Print("You awaken in a strange room...\n\n");
+	Print("You awaken in a strange room...\n");
 
 	do
 	{
-		Print("Where will you go\n\n");
+		Print("\n\nWhere will you go\n\n");
 		choice = GetChoice("(1) - To your left, where there is a treasure chest...\n(2) - To your right, where there is another treasure chest...\n(3) - A whitish haze that floats around in the middle of the room...\n", 3);
 
 		if (inRoomTracker[choice - 1] == false)
@@ -569,12 +626,22 @@ int main()
 				{
 				case 1:
 					player.AddItem(cursedCandle, player.stock);
+					Print("\nGrants Luck +1 and Speed -1\n");
+					cursedCandle.SetIsEquipped(true);
+					player.SetLuck(player.GetLuck() + 1);
+					player.SetSpeed(player.GetSpeed() - 1);
 					break;
+
 				case 2:
 					player.AddItem(holyHelm, player.stock);
+					Print("\nGrants strength +1, HP +10");
+					holyHelm.SetIsEquipped(true);
+					player.SetStrength(player.GetStrength() + 1);
+					player.SetHealth(player.GetHealth() + 10);
 					break;
 				case 3:
 					player.AddItem(presciousPendant, player.stock);
+					Print("\The pendant may fetch a handome price at a merchant\n");
 					break;
 
 				default:
@@ -601,7 +668,7 @@ int main()
 				break;
 
 			case 3:
-				Print("\n\nA ghost materializes!!!\nIt Says over and over...\n");
+				Print("\n\nA neutral spirit appears!!!\nIt Says over and over...\n");
 				Print("\nThe Holy Knight stands in defiance of all enemies\nGreat treasure lies deep in accursed darkness\nGive an offering to the Lost Throne\n\n");
 				choice1 = GetChoice("\n1-Leave\n2-Attack\n");
 
@@ -639,6 +706,147 @@ int main()
 	} while (!exitRoom);
 
 	Print("\n\n You head into the next room...\n\n");
+	exitRoom = false;
+	for (int i = 0; i < 3; i++)	{ inRoomTracker[i] = false; }
+
+	//ROOM 2 BEGINS HERE--------------------------------------------------------
+
+	Print("As you step into the room, you see:\n");
+	Print("(1) - A hallway to the left, full of hanging plants and vines...\n");
+	Print("(2) - A dark hallway to the left. A dripping noise can be heard deep in the darkness...\n");
+	Print("(3) - Straigh ahead, a pedestal in a ray of light...\n");
+
+	do
+	{
+		Print("\nWhere will you go???\n\n");
+		choice = GetChoice("(1) - To your left, towards the hallway of hanging plants...\n(2) - To your right, towards the dripping noise and darkness...\n(3) - Straight ahead, to the pedestal in the light...\n", 3);
+
+		if (inRoomTracker[choice - 1] == false)
+		{
+			inRoomTracker[choice - 1] = true;
+
+			switch (choice)
+			{
+			case 1:
+				Print("\nBloody footprints lead you further into the forest of potted plants. Where they end, a satchel lies on the floor. It is covered in fresh blood...\n");
+				Print("\n(1) - Take the satchel...\n(2) - Turn back...\n");
+				choice2 = GetChoice("\n\nEnter 1 or 2", 2);
+
+				switch (choice2)
+				{
+				case 1:
+					for (int i = 0; i < 5; i++)
+					{
+						player.AddItem(healthPotion, player.stock);
+					}
+					break;
+				case 2:
+					Print("\nFearing a trap, you head back to the start of the room...\n");
+					inRoomTracker[choice - 1] = false;
+					break;
+
+				default:
+					break;
+				}
+				break;
+
+			case 3:
+				Print("\nYou approach the pedestal, and see an ornate ring resting atop it...\n");
+				Print("\n(1) - Take the ring...\n(2) - Turn back...\n");
+				choice2 = GetChoice("\n\nEnter 1 or 2", 2);
+
+				switch (choice2)
+				{
+				case 1:
+					Print("\nA dark spirit emerges from the pedestal!!!\n\n");
+
+					wanderingGhost.SetHealth(175);
+					wanderingGhost.SetSpeed(12);
+					wanderingGhost.SetStrength(2);
+					wanderingGhost.SetName("Dark Spirit");
+
+					if (wanderingGhost.GetSpeed() >= (player.GetSpeed() + 4))
+					{
+						wanderingGhost.Attack(player);
+					}
+
+					Battle(player, wanderingGhost);
+					if (player.GetHealth() <= 0) { return 0; }
+
+					Print("\nYou defeated the dark spirit!!!\n");
+					player.AddItem(warriorsRing, player.stock);
+					Print("\nAcquired: Warrior's Ring\nThis ring grants +2 Strength and +1 Luck\n");
+
+					choice1 = GetChoice("\nEquip Now?\n(1) - Yes\n(2) - No\n", 2);
+					switch (choice1)
+					{
+					case 1:
+						warriorsRing.SetIsEquipped(true);
+						player.SetStrength(player.GetStrength() + 2);
+						player.SetLuck(player.GetLuck() + 1);
+						break;
+
+					case 2:
+						NULL;
+						break;
+
+					default:
+						break;
+					}
+					
+					break;
+				case 2:
+					Print("\nFearing a trap, you leave the ring alone...\n");
+					break;
+
+				default:
+					break;
+				}
+				break;
+
+			case 2:
+				Print("\n\nYou draw closer to the sound, and the smell of blood fills the air...\n\n");
+				system("PAUSE");
+				Print("\n\nBefore you can turn back, three huge, hairy spiders surround you...\n");
+
+				Battle(player, spider1, spider2, spiderBoss);
+				if (player.GetHealth() <= 0) { return 0; }
+				
+				Print("\Victory has improved your skills!!!\nStrength +1, Speed +1");
+				player.SetStrength(player.GetStrength() + 1);
+				player.SetSpeed(player.GetSpeed() + 1);
+
+				break;
+
+			default:
+				break;
+			}
+		}
+		else
+		{
+			Print("\nYou can't do this twice!!!\n\n");
+		}
+
+		if (inRoomTracker[0] + inRoomTracker[1] + inRoomTracker[2] >= 3)
+		{
+			exitRoom = true;
+		}
+	} while (!exitRoom);
+
+	Print("\n\n You head into the next room...\n\n");
+	exitRoom = false;
+	for (int i = 0; i < 3; i++) { inRoomTracker[i] = false; }
+
+	//ROOM 3 BEGINS HERE--------------------------------------------------------
+
+	do
+	{
+		break;
+		if (inRoomTracker[0] + inRoomTracker[1] + inRoomTracker[2] >= 3)
+		{
+			exitRoom = true;
+		}
+	} while (!exitRoom);
 
 	return 0;
 }
