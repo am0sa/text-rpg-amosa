@@ -151,7 +151,7 @@ public:
 	{
 		int damage = 0;
 		srand(time(NULL));
-		damage = GetStrength() * GetSpeed() + (GetLuck() * rand() % 101);
+		damage = GetStrength() + (GetLuck() * rand() % 10);
 		if (damage > target.GetHealth())
 		{
 			target.SetHealth(0);
@@ -175,6 +175,22 @@ public:
 		result = ((GetSpeed() * (rand() % 11)) >= 50);
 		cout << endl << GetName() << " Escaped!!!\n";
 		return result;
+	}
+
+	bool Dodge(Being& target, int attacker)
+	{
+		bool answer = false;
+
+		if (target.GetSpeed() >= 2*(attacker))
+		{
+			answer = true;
+		}
+		else if (target.GetSpeed() > attacker)
+		{
+			answer = (GetSpeed()*rand()%21 >= 30);
+		}
+
+		return answer;
 	}
 };
 #endif /* beinginput_h */

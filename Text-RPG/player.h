@@ -8,9 +8,9 @@ class Player : public Being
 public:
 	Player()
 	{
-		SetHealth(100);
+		SetHealth(150);
 		SetSpeed(5);
-		SetStrength(3);
+		SetStrength(5);
 		SetLuck(1);
 	}
 
@@ -20,9 +20,18 @@ public:
 	{
 		int damage = 0;
 		srand(time(NULL));
-		damage = GetStrength() * GetSpeed() + (GetLuck() * rand()%101) ;
-		cout << "\nYou attacked " << enemy.GetName() << " and dealt " << damage << " damage!!!\n";
-		
+
+		if (Dodge(enemy, GetSpeed()))
+		{
+			damage = 0;
+			cout << endl << enemy.GetName() << " Dodged your attack!!!\n\n";
+		}
+		else
+		{
+			damage = GetStrength() * 7 + (GetLuck() * rand() % 20);
+			cout << "\nYou attacked " << enemy.GetName() << " and dealt " << damage << " damage!!!\n";
+		}
+
 		if (damage > enemy.GetHealth())
 		{
 			enemy.SetHealth(0);
@@ -31,6 +40,10 @@ public:
 		{
 			enemy.SetHealth(enemy.GetHealth() - damage);
 		}
+
+		cout << "\nPlayer Health: " << GetHealth() << endl << endl;
+		cout << enemy.GetName() << " Health: " << enemy.GetHealth() << endl << endl;
+		cout << "\n\n";
 	}
 
 	void Heal() 

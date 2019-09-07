@@ -16,19 +16,44 @@ public:
 	}
 	~Enemy() {}
 
-	void attack(Being& player)
+	void Attack(Being& player)
 	{
-		int damage = 0;
-		srand(time(NULL));
+		if (GetHealth() > 0)
+		{
+			int damage = 0;
+			srand(time(NULL));
 
-		damage = GetStrength() * GetSpeed() + (GetLuck() * rand() % 101);
+			if (Dodge(player, GetSpeed()))
+			{
+				damage = 0;
+				cout << endl << "You dodged " << GetName() << "'s attack!!!\n\n";
+			}
+			else
+			{
+				damage = GetStrength() * GetSpeed() * 4 + (GetLuck() * rand() % 20);
+				cout << GetName() << " Attacked!! \nYou took " << damage << " damage!!!\n";
+			}
 
-		cout << "\nYou were hit!! \nYou took " << damage << " damage!!!\n";
 
-		player.SetHealth(player.GetHealth() - damage);
+			if (damage > player.GetHealth())
+			{
+				player.SetHealth(0);
+			}
+			else
+			{
+				player.SetHealth(player.GetHealth() - damage);
+			}
 
-		system("PAUSE");
+			cout << "\n\nPlayer Health: " << player.GetHealth() << endl << endl;
+			cout << GetName() << " Health: " << GetHealth() << endl << endl;
 
+			system("PAUSE");
+			cout << "\n\n";
+		}
+		else
+		{
+			NULL;
+		}
 	}
 };
 #endif // !enemy

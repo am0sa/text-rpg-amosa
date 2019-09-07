@@ -2,9 +2,10 @@
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\being.h(153,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\being.h(174,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(22,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(44,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\enemy.h(22,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(172,90): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(323,90): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(460,8): warning C4101:  'retry': unreferenced local variable
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(57,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\enemy.h(24,14): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(212,90): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(363,90): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(590,12): warning C4129:  'Y': unrecognized character escape sequence
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(501,8): warning C4101:  'retry': unreferenced local variable
   Text-RPG.vcxproj -> C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\x64\Debug\Text-RPG.exe

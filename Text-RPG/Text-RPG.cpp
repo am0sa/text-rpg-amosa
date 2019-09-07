@@ -10,6 +10,15 @@ using namespace std;
 
 inline void Print(string text) { cout << text; }
 
+void PrintStats(Being& query)
+{
+	cout << "\nHealth: " << query.GetHealth();
+	cout << "\nSpeed: " << query.GetSpeed();
+	cout << "\nStrength: " << query.GetStrength();
+	cout << "\nLuck: " << query.GetLuck();
+	cout << endl;
+}
+
 int GetChoice(string text, int maxChoice = 3)
 {
 	int choice = NULL;
@@ -26,6 +35,7 @@ int GetChoice(string text, int maxChoice = 3)
 		cin.ignore(std::numeric_limits<int>::max(), '\n');
 
 	} while (retry == 1 || choice > maxChoice || choice < 1);
+	cout << endl << endl;
 	return choice;
 }
 
@@ -60,21 +70,34 @@ void Battle(Player& player, Being& enemy)
 	{
 		enemiesAlive = (enemy.GetHealth());
 
-		if (enemiesAlive > 0)
+		if (enemiesAlive <= 0)
 		{
-			battleOver = false;
+			battleOver = true;
 		}
 		else
 		{
-			battleOver = true;
+			battleOver = false;
 		}
 
 		int i = 0;
 		for (; i < turnOrder.size(); i++)
 		{
+
+
 			if (turnOrder[i].GetName() == enemy.GetName())
 			{
 				enemy.Attack(player);
+
+				if (player.GetHealth() <= 0)
+				{
+					battleOver = true;
+					Print("\n\n\t\tYou Died :(\n\t\tGAME OVER\n\n\n\n");
+					break;
+				}
+				else
+				{
+					battleOver = false;
+				}
 			}
 			else
 			{
@@ -83,6 +106,18 @@ void Battle(Player& player, Being& enemy)
 				{
 				case 1:
 					player.Attack(enemy);
+
+					enemiesAlive = (enemy.GetHealth());
+
+					if (enemiesAlive <= 0)
+					{
+						battleOver = true;
+						break;
+					}
+					else
+					{
+						battleOver = false;
+					}
 					break;
 
 				case 2:
@@ -90,7 +125,12 @@ void Battle(Player& player, Being& enemy)
 					break;
 
 				case 3:
-					player.Escape();
+					if (player.Escape())
+					{
+						battleOver = true;
+						Print("\n\nYou Escaped!!!\n");
+						break;
+					}
 					break;
 
 				default:
@@ -375,7 +415,7 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 
 int main()
 {
-	/*Function Prototypes----------------------------------------------------
+	/*Function Prototypes-------------------------------------------------------
 	bool Room1();
 	bool Room2();
 	bool Room3();
@@ -384,19 +424,20 @@ int main()
 
 	//Gamewide Variables
 	bool running = false; //DEBUG ONE LOOP
-	enum GameState { RoomProgress, Battle, Choice, Menu };
+	enum GameState { RoomProgress, InBattle, Choice, Menu };
 	int gameState = Menu;
 	int startingPoints = 5;
 	int choice = NULL;
 	int choice1 = NULL;
 	int choice2 = NULL;
 	bool inRoomTracker[3] = {false, false, false};
+	bool exitRoom = false;
 
 	string entryString = "";
 	
 	Being USED_ITEMS; //ALl used items are transferred to this stock
 
-	//ITEM CREATION----------------------------------------------------------
+	//ITEM CREATION-------------------------------------------------------------
 	//ITEM CREATION--------------------------------------------------------
 	Item healthPotion;
 	healthPotion.SetItemName("Health Potion");
@@ -443,7 +484,7 @@ int main()
 	whiskey.SetValue(50);
 
 	
-	//PLAYER CREATION--------------------------------------------------------
+	//PLAYER CREATION-----------------------------------------------------------
 	Player player;
 	player.SetValue(1500);
 	cout << "\nEnter your name\n";
@@ -453,7 +494,7 @@ int main()
 	player.AddItem(healthPotion, player.stock);
 	player.AddItem(healthPotion, player.stock);
 
-	//Allow player customize attributes--------------------------------------
+	//Allow player customize attributes-----------------------------------------
 	while (startingPoints>0)
 	{
 		int choice = NULL;
@@ -489,61 +530,116 @@ int main()
 		startingPoints--;
 	}	
 
-	Print("You awaken in a strange room. To your left, you see a treasure chest (1)...\nTo your right, you see another treasure chest (2)...\n");
-	Print("A light haze floats around in the middle of the room (3)...\n");
+	//ENEMY CREATION------------------------------------------------------------
+	Enemy mimic;
+	mimic.SetName("mimic");
+	mimic.SetHealth(300);
+	mimic.SetStrength(5);
+	mimic.SetSpeed(1);
+	mimic.SetLuck(10);
 
-	GetChoice("Where will you go first", 3);
+	Enemy wanderingGhost;
+	wanderingGhost.SetName("Wandering Ghost");
+	wanderingGhost.SetHealth(120);
+	wanderingGhost.SetLuck(30);
+	wanderingGhost.SetSpeed(10);
+
+
+
+	//ROOM 1 BEGINS HERE--------------------------------------------------------
+	Print("You awaken in a strange room...\n\n");
 
 	do
 	{
-		switch (choice)
+		Print("Where will you go\n\n");
+		choice = GetChoice("(1) - To your left, where there is a treasure chest...\n(2) - To your right, where there is another treasure chest...\n(3) - A whitish haze that floats around in the middle of the room...\n", 3);
+
+		if (inRoomTracker[choice - 1] == false)
 		{
-		case 1:
-			inRoomTracker[0] = true;
-			break;
+			inRoomTracker[choice - 1] = true;
 
-		case 2:
-			inRoomTracker[1] = true;
-			break;
+			switch (choice)
+			{
+			case 1:
+				Print("\nYou open the chest, but only have enough time to grab one item before it slams shut. You chose to take:\n");
+				Print("\n1-Cursed Candle\n2-Holy Helm\n3-Prescious Pendant");
+				choice2 = GetChoice("\n\nEnter 1 to 3",3);
+				
+				switch (choice2)
+				{
+				case 1:
+					player.AddItem(cursedCandle, player.stock);
+					break;
+				case 2:
+					player.AddItem(holyHelm, player.stock);
+					break;
+				case 3:
+					player.AddItem(presciousPendant, player.stock);
+					break;
 
-		case 3:
-			inRoomTracker[2] = true;
-			break;
-
-		default:
-			break;
-		}
-
-	} while (inRoomTracker > 0);
-
-    do
-    {
-		//cout << player.GetHealth();
-
-		switch (gameState)
-        {
-            case RoomProgress:
-                //Test
-                break;
-                
-            case Battle:
-                //Test
-                break;
-                
-            case Choice:
-                //Test
-                break;
-                
-            case Menu:
-
+				default:
+					break;
+				}
 				break;
-                
-            default:
-                break;
-        }
-        
-        
-    } while (running == true);
+
+			case 2:
+				if (player.GetLuck() >= 3)
+				{
+					player.AddItem(royalInvitation, player.stock);
+
+					Print("\You obtained a 'Royal Invitation' \n(Passive: Speed + 2)");
+
+					player.SetSpeed(player.GetSpeed() + 2);
+					PrintStats(player);
+				}
+				else
+				{
+					Print("\nAs you open the chest, you feel a strange uneasiness. \nSuddenly, it bites you, injuring your arm (Strength -1)\n");
+					Battle(player, mimic);		
+					if (player.GetHealth() <= 0) { return 0; }
+				}
+				break;
+
+			case 3:
+				Print("\n\nA ghost materializes!!!\nIt Says over and over...\n");
+				Print("\nThe Holy Knight stands in defiance of all enemies\nGreat treasure lies deep in accursed darkness\nGive an offering to the Lost Throne\n\n");
+				choice1 = GetChoice("\n1-Leave\n2-Attack\n");
+
+				switch (choice1)
+				{
+				case 1:
+					"\n\nYou choose to leave the ghost and keep moving\n";
+					break;
+
+				case 2:
+					player.Attack(wanderingGhost);
+					Battle(player, wanderingGhost);
+					if (player.GetHealth() <= 0) { return 0; }
+
+					break;
+
+				default:
+					break;
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+		else
+		{
+			Print("\nYou can't do this twice!!!\n\n");
+		}
+	
+		if (inRoomTracker[0] + inRoomTracker[1] + inRoomTracker[2] >= 3)
+		{
+			exitRoom = true;
+		}
+	} while (!exitRoom);
+
+	Print("\n\n You head into the next room...\n\n");
+
 	return 0;
 }
 
