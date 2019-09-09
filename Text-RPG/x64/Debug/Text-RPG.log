@@ -1,13 +1,12 @@
 ﻿  Text-RPG.cpp
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\being.h(153,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\being.h(174,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(22,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(56,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\being.h(154,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\being.h(175,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(27,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(63,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\enemy.h(24,14): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(211,90): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(373,106): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(644,12): warning C4129:  'T': unrecognized character escape sequence
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(657,12): warning C4129:  'Y': unrecognized character escape sequence
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(815,11): warning C4129:  'V': unrecognized character escape sequence
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(536,8): warning C4101:  'retry': unreferenced local variable
-  Text-RPG.vcxproj -> C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\x64\Debug\Text-RPG.exe
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(212,90): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(375,106): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(680,12): warning C4129:  'T': unrecognized character escape sequence
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(693,12): warning C4129:  'Y': unrecognized character escape sequence
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(857,11): warning C4129:  'V': unrecognized character escape sequence
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(908,4): error C2143:  syntax error: missing ';' before 'case'

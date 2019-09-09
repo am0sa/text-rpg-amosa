@@ -19,6 +19,7 @@ public:
 		SetSpeed(input_speed);
 		SetStrength(input_strength);
 	}
+	~Being() {};
 
 	string name = "";
 	int health = 0;
@@ -151,7 +152,7 @@ public:
 	{
 		int damage = 0;
 		srand(time(NULL));
-		damage = GetStrength() + (GetLuck() * rand() % 10);
+		damage = GetStrength()*GetStrength() + (GetLuck() * rand() % 41);
 		if (damage > target.GetHealth())
 		{
 			target.SetHealth(0);
@@ -162,10 +163,10 @@ public:
 		}		cout << GetName() << " Attacked!!!\n";
 	}
 
-	virtual bool Guard()
+	virtual void Guard()
 	{
 		cout << "\n\nGuarding!!\n\n";
-		return true;
+		SetHealth(GetHealth() + 90);
 	}
 
 	virtual bool Escape()

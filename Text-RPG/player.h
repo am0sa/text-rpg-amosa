@@ -6,6 +6,7 @@
 class Player : public Being
 {
 public:
+	int maxHealth = 1500;
 	Player()
 	{
 		SetHealth(1500);
@@ -13,8 +14,12 @@ public:
 		SetStrength(5);
 		SetLuck(1);
 	}
-
 	~Player() {}
+
+	void IncreaseHP(int levels)
+	{
+		maxHealth += (levels * 10);
+	}
 
 	void Attack(Being& enemy)
 	{
@@ -28,7 +33,9 @@ public:
 		}
 		else
 		{
-			damage = GetStrength() * 7 + (GetLuck() * rand() % 20);
+			int x = GetStrength();
+			int y = GetSpeed();
+			damage = x * (x + y) + (GetLuck() * rand() % 51);
 			cout << "\nYou attacked " << enemy.GetName() << " and dealt " << damage << " damage!!!\n";
 		}
 

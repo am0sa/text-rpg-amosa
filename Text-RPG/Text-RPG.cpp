@@ -140,6 +140,7 @@ void Battle(Player& player, Being& enemy)
 			}
 		}
 	} while (!battleOver);
+	player.SetHealth(player.maxHealth);
 }
 
 void Battle(Player& player, Being& being, Being& being2)
@@ -259,6 +260,7 @@ void Battle(Player& player, Being& being, Being& being2)
 			}
 		}
 	} while (!battleOver);
+	player.SetHealth(player.maxHealth);
 }
 
 void Battle(Player& player, Being& being, Being& being2, Being& being3)
@@ -413,7 +415,7 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 						if (player.Escape())
 						{
 							battleOver = true;
-							Print("\n\nYou Escaped!!!\n");
+							Print("\n\n\tYou Escaped!!!\n");
 							break;
 						}
 
@@ -453,6 +455,7 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 			}
 		}
 	} while (!battleOver);
+	player.SetHealth(player.maxHealth);
 }
 
 int main()
@@ -470,16 +473,13 @@ int main()
 
 	string entryString = "";
 	
-	//Being USED_ITEMS; //ALl used items are transferred to this stock
-
 	//ITEM CREATION-------------------------------------------------------------
-	//ITEM CREATION--------------------------------------------------------
-	Item healthPotion;
-	healthPotion.SetItemName("Health Potion");
-	healthPotion.SetValue(100);
+	Item healthgem;
+	healthgem.SetItemName("Health Gem");
+	healthgem.SetValue(100);
 
 	Item cursedCandle;
-	healthPotion.SetItemName("Health Potion");
+	cursedCandle.SetItemName("Cursed Candle");
 	cursedCandle.SetKeyItem(true);
 
 	Item holyHelm;
@@ -518,16 +518,50 @@ int main()
 	whiskey.SetItemName("Whiskey");
 	whiskey.SetValue(50);
 
+	//Merchant Creation---------------------------------------------------------
+	Being blessedMerchant;
+	blessedMerchant.SetName("Blessed Merchant");
+	blessedMerchant.SetHealth(777);
+	blessedMerchant.SetSpeed(7);
+	blessedMerchant.SetStrength(7);
+	blessedMerchant.SetLuck(7);
+	blessedMerchant.SetValue(2500);
+	blessedMerchant.stock.push_back(healthgem);
+	blessedMerchant.stock.push_back(healthgem);
+	blessedMerchant.stock.push_back(fireBomb);
+	blessedMerchant.stock.push_back(royalInvitation);
+
+	Being cursedMerchant;
+	cursedMerchant.SetName("Cursed Merchant");
+	cursedMerchant.SetHealth(666);
+	cursedMerchant.SetSpeed(6);
+	cursedMerchant.SetStrength(6);
+	cursedMerchant.SetLuck(6);
+	blessedMerchant.SetValue(2500);
+	cursedMerchant.stock.push_back(gamblersRing);
+	cursedMerchant.stock.push_back(whiskey);
+	cursedMerchant.stock.push_back(whiskey);
+
+	Being shadySalesman;
+	shadySalesman.SetName("Shady Salesman");
+	shadySalesman.SetHealth(1500);
+	shadySalesman.SetSpeed(14);
+	shadySalesman.SetStrength(0);
+	shadySalesman.SetLuck(15);
+	shadySalesman.SetValue(80085);
+	shadySalesman.AddItem(ghostlyGarments,shadySalesman.stock);
 	
+
+
 	//PLAYER CREATION-----------------------------------------------------------
 	Player player;
 	player.SetValue(1500);
 	cout << "Enter your name\n";
 	cin >> entryString;
 	player.SetName(entryString);
-	player.AddItem(healthPotion, player.stock);
-	player.AddItem(healthPotion, player.stock);
-	player.AddItem(healthPotion, player.stock);
+	player.AddItem(healthgem, player.stock);
+	player.AddItem(healthgem, player.stock);
+	player.AddItem(healthgem, player.stock);
 
 	//Allow player customize attributes-----------------------------------------
 	while (startingPoints>0)
@@ -602,6 +636,8 @@ int main()
 	spiderBoss.SetLuck(3);
 	spiderBoss.SetName("Spider X");
 
+	system("PAUSE");
+	system("CLEAR");
 
 	//ROOM 1 BEGINS HERE--------------------------------------------------------
 	Print("You awaken in a strange room...\n");
@@ -706,8 +742,13 @@ int main()
 	} while (!exitRoom);
 
 	Print("\n\n You head into the next room...\n\n");
+	system("PAUSE");
+	system("CLEAR");
 	exitRoom = false;
 	for (int i = 0; i < 3; i++)	{ inRoomTracker[i] = false; }
+
+	system("PAUSE");
+	system("CLEAR");
 
 	//ROOM 2 BEGINS HERE--------------------------------------------------------
 
@@ -730,15 +771,14 @@ int main()
 			case 1:
 				Print("\nBloody footprints lead you further into the forest of potted plants. Where they end, a satchel lies on the floor. It is covered in fresh blood...\n");
 				Print("\n(1) - Take the satchel...\n(2) - Turn back...\n");
-				choice2 = GetChoice("\n\nEnter 1 or 2", 2);
+				choice2 = GetChoice("\n\nEnter 1 or 2:", 2);
 
 				switch (choice2)
 				{
 				case 1:
-					for (int i = 0; i < 5; i++)
-					{
-						player.AddItem(healthPotion, player.stock);
-					}
+					Print("You found a healt gem. Health increased by 10 points\n");
+					player.IncreaseHP(1);
+					player.SetHealth(player.maxHealth);
 					break;
 				case 2:
 					Print("\nFearing a trap, you head back to the start of the room...\n");
@@ -784,6 +824,8 @@ int main()
 						warriorsRing.SetIsEquipped(true);
 						player.SetStrength(player.GetStrength() + 2);
 						player.SetLuck(player.GetLuck() + 1);
+						Print("\nWarrior's ring equipped...\n");
+						PrintStats(player);
 						break;
 
 					case 2:
@@ -837,15 +879,55 @@ int main()
 	exitRoom = false;
 	for (int i = 0; i < 3; i++) { inRoomTracker[i] = false; }
 
+	system("PAUSE");
+	system("CLEAR");
+
+	exitRoom = false;
+	for (int i = 0; i < 3; i++) { inRoomTracker[i] = false; }
+
+
 	//ROOM 3 BEGINS HERE--------------------------------------------------------
+	Print("You enter a circular hall, lined with candles.\n Three Merchants sit in a straight line. A stairway behind them leads to the final room...\n");
+	Print("\n\tYou can repeat actions in this room\n\n");
+	system("PAUSE");
 
 	do
 	{
-		break;
-		if (inRoomTracker[0] + inRoomTracker[1] + inRoomTracker[2] >= 3)
-		{
-			exitRoom = true;
-		}
+
+		Print("The three merchants await:\n(1) - Blessed Merchant\n(2) - Cursed Merchant\n(3) - Suspicious Dealer\n\n");
+
+		choice = GetChoice("What will you do? (1, 2, 3, or 4)", 4);
+
+			switch (choice)
+			{
+			case 1:
+				Print("\n\n");
+
+				NULL;
+
+			case 2:
+
+				choice2 = GetChoice("\n\nEnter 1 or 2", 2);
+
+
+				break;
+
+
+			case 3:
+
+
+				break;
+
+			case 4:
+
+				exitRoom = true;
+
+				break;
+
+			default:
+				break;
+			}
+		
 	} while (!exitRoom);
 
 	return 0;

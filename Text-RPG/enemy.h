@@ -30,7 +30,7 @@ public:
 			}
 			else
 			{
-				damage = GetStrength() * GetSpeed() * 4 + (GetLuck() * rand() % 20);
+				damage = GetStrength() * GetStrength() * 4 + (GetLuck() * rand() % 20);
 				cout << GetName() << " Attacked!! \nYou took " << damage << " damage!!!\n";
 			}
 
