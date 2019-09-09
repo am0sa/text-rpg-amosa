@@ -43,6 +43,25 @@ public:
 
 
 	//Item and Inventory Functions
+	bool UseItem(Item for_use, Being& use_from)
+	{
+		for (unsigned int i = 0; i <= stock.size(); i++)
+		{
+			string t = stock[i].GetName();
+
+			if (ItemCounter(for_use, use_from) == 0)
+			{
+				return false;
+			}
+
+			if (t == for_use.GetName())
+			{
+				stock.erase(stock.begin() +i);
+				return true;
+			}
+		}
+	}
+
 	int ItemCounter(Item search, Being& ownerStock)									//Returns the count of an item in the merchants stock
 	{
 		int temp = 0;

@@ -528,6 +528,8 @@ int main()
 	blessedMerchant.SetValue(2500);
 	blessedMerchant.stock.push_back(healthgem);
 	blessedMerchant.stock.push_back(healthgem);
+	blessedMerchant.stock.push_back(healthgem);
+	blessedMerchant.stock.push_back(healthgem);
 	blessedMerchant.stock.push_back(fireBomb);
 	blessedMerchant.stock.push_back(royalInvitation);
 
@@ -542,7 +544,7 @@ int main()
 	cursedMerchant.stock.push_back(whiskey);
 	cursedMerchant.stock.push_back(whiskey);
 
-	Being shadySalesman;
+	Enemy shadySalesman;
 	shadySalesman.SetName("Shady Salesman");
 	shadySalesman.SetHealth(1500);
 	shadySalesman.SetSpeed(14);
@@ -567,7 +569,6 @@ int main()
 	while (startingPoints>0)
 	{
 		int choice = NULL;
-		bool retry;
 
 		cout << "\nYou have " << startingPoints << " skill points to allocate\nWhat will you level up?\nAttributes:\n\n";
 		cout << "1-Health\n2-Speed\n3-Strength\n4-Luck\n";
@@ -677,7 +678,7 @@ int main()
 					break;
 				case 3:
 					player.AddItem(presciousPendant, player.stock);
-					Print("\The pendant may fetch a handome price at a merchant\n");
+					Print("\nThe pendant may fetch a handome price at a merchant\n");
 					break;
 
 				default:
@@ -690,7 +691,7 @@ int main()
 				{
 					player.AddItem(royalInvitation, player.stock);
 
-					Print("\You obtained a 'Royal Invitation' \n(Passive: Speed + 2)");
+					Print("\nYou obtained a 'Royal Invitation' \n(Passive: Speed + 2)");
 
 					player.SetSpeed(player.GetSpeed() + 2);
 					PrintStats(player);
@@ -741,11 +742,16 @@ int main()
 		}
 	} while (!exitRoom);
 
+	delete &mimic;
+	
+
 	Print("\n\n You head into the next room...\n\n");
 	system("PAUSE");
 	system("CLEAR");
 	exitRoom = false;
 	for (int i = 0; i < 3; i++)	{ inRoomTracker[i] = false; }
+
+	
 
 	system("PAUSE");
 	system("CLEAR");
@@ -854,7 +860,7 @@ int main()
 				Battle(player, spider1, spider2, spiderBoss);
 				if (player.GetHealth() <= 0) { return 0; }
 				
-				Print("\Victory has improved your skills!!!\nStrength +1, Speed +1");
+				Print("\nVictory has improved your skills!!!\nStrength +1, Speed +1");
 				player.SetStrength(player.GetStrength() + 1);
 				player.SetSpeed(player.GetSpeed() + 1);
 
@@ -879,11 +885,14 @@ int main()
 	exitRoom = false;
 	for (int i = 0; i < 3; i++) { inRoomTracker[i] = false; }
 
+	delete& spider1;
+	delete& spider2;
+	delete& spiderBoss;
+	delete& wanderingGhost;
+
 	system("PAUSE");
 	system("CLEAR");
 
-	exitRoom = false;
-	for (int i = 0; i < 3; i++) { inRoomTracker[i] = false; }
 
 
 	//ROOM 3 BEGINS HERE--------------------------------------------------------

@@ -54,6 +54,7 @@ public:
 
 	void Heal() 
 	{
+		//All Heal() Calls need "if(UseItem(_item)){}
 		SetHealth((GetHealth() + 235));
 	}
 
