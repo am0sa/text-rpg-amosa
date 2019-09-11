@@ -2,9 +2,9 @@
 //
 #include <iostream>
 #include "player.h"
+#include "being.h"
 #include "stocked.h"
 #include "enemy.h"
-
 
 using namespace std;
 
@@ -457,6 +457,295 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 	} while (!battleOver);
 	player.SetHealth(player.maxHealth);
 }
+
+int Trading(Player& player, Being& merchant)
+{
+	int choice = 0;
+	int choice1 = 0;
+	int choice2 = 0;
+	int choice3 = 0;
+	int retry = NULL;
+	int tempCheck = NULL;
+
+
+
+	bool test = false;							//Program loop stopper
+
+	//merchant fees to item sales. reduces merchants buying prices by fees[i]
+	int fees[] = { 10, 30, 100 };
+
+	cout << "Welcome to Potion Seller's shop\nThe Potion Seller currently has:\n";
+	merchant.PrintStock(merchant);
+
+	do
+	{
+		cout << "Player Dosh: $" << player.GetValue() << endl;
+		cout << "Merchant Dosh: $" << merchant.GetValue() << endl << endl;
+		cout << "What would you like to do?\nEnter '1' to see merchant inventory\nEnter '2' to Make a purchase\nEnter '3' to sell an item\nEnter '4' to exit\n";
+
+		do
+		{
+			cout << "\nEnter a choice: ";
+			cin >> choice1;
+			retry = cin.fail();
+			cin.clear();
+			cin.ignore(std::numeric_limits<int>::max(), '\n');
+
+			if (retry == 1)
+			{
+				cout << "Invalid Entry\n";
+			}
+			else if (choice1 > 4 || choice1 < 1)
+			{
+				cout << "Enter a number from 1 to 4\n";
+			}
+		} while (retry == 1 || choice1 > 4 || choice1 < 1);
+
+		switch (choice1)
+		{
+		case 1: //See merchant stock again
+			merchant.PrintStock(merchant);
+			break;
+
+		case 2: //buy an item
+			cout << "\nWhat would you like to buy?\nEnter a number from 1 to " << merchant.stock.size();
+
+			do
+			{
+				cout << "\nEnter a choice: ";
+				cin >> choice2;
+				retry = cin.fail();
+				cin.clear();
+				cin.ignore(std::numeric_limits<int>::max(), '\n');
+
+				if (retry == 1)
+				{
+					cout << "Invalid Entry\n";
+				}
+				else if (choice2 >= merchant.stock.size() || choice2 < 0)
+				{
+					cout << "\nEnter a number from 1 to 8\n";
+				}
+				else
+				{
+					tempCheck = merchant.ItemCounter(merchant.stock[choice2 - 1], merchant);
+				}
+
+				if (tempCheck <= 0)
+				{
+					cout << "\nSorry, that item is out of stock\nPlease choose again\n";
+					retry = 1;
+				}
+			} while (retry == 1 || choice2 > 8 || choice2 < 1);
+
+
+			do
+			{
+				cout << "\nThere are " << tempCheck << "x " << item[choice2 - 1] << " available\n";
+				cout << "\nEnter a quantity to purchase: ";
+				cin >> choice3;
+				retry = cin.fail();
+				cin.clear();
+				cin.ignore(std::numeric_limits<int>::max(), '\n');
+
+				if (!EnoughDosh(item[choice2 - 1], item, choice3, prices, pDosh, buySell))
+				{
+					break;
+				}
+				if (retry == 1)
+				{
+					cout << "Invalid Entry\n";
+				}
+				else if (choice3 > tempCheck || choice3 < 1)
+				{
+					cout << "\nEnter a number from 1 to " << tempCheck << "\n";
+					retry = 1;
+				}
+
+				if (retry != 1 && (EnoughDosh(item[choice2 - 1], item, choice3, prices, pDosh, buySell)))
+				{
+					cout << "\nYou can afford this item. \nEnter '0' to cancel and '1' to continue\nContinue with Purchase?:";
+
+					do
+					{
+						if (!EnoughDosh(item[choice2 - 1], item, choice3, prices, pDosh, buySell))
+						{
+							break;
+						}
+
+						cout << "\nEnter a choice: ";
+						cin >> choice4;
+						retry = cin.fail();
+						cin.clear();
+						cin.ignore(std::numeric_limits<int>::max(), '\n');
+
+						if (retry == 1)
+						{
+							cout << "Invalid Entry\n";
+						}
+						else if (choice4 > 1 || choice4 < 0)
+						{
+							retry = 1;
+							cout << "Enter '1' or '0' \n";
+						}
+					} while (retry == 1);
+
+					cout << endl; //console spacing
+
+					if (choice4 == 1)
+					{
+						Transfer(item[choice2 - 1], choice3, mStock, pStock);
+						pDosh -= buySell;
+						mDosh += buySell;
+					}
+					else
+					{
+						break;
+					}
+				}
+				else
+				{
+					retry = 1;
+				}
+			} while (retry == 1);
+			break;
+
+		case 3: //sell an item
+			cout << "\nYour inventory:\n";
+			merchant.PrintStock(merchant);
+			cout << "\nThis merchant charges $" << fees[1] << "per Item you sell.\n\nWhat would you like to Sell?\nEnter a number from 1 to 8\n";
+
+			do
+			{
+				cout << "Enter a choice: ";
+				cin >> choice2;
+				retry = cin.fail();
+				cin.clear();
+				cin.ignore(std::numeric_limits<int>::max(), '\n');
+
+				if (retry == 1)
+				{
+					cout << "\nInvalid Entry\n";
+				}
+				else if (choice2 > 8 || choice2 < 1)
+				{
+					cout << "\nEnter a number from 1 to 8\n";
+				}
+				else
+				{
+					tempCheck = ItemCounter(item[(choice2 - 1)], pStock);
+				}
+
+				if (tempCheck <= 0)
+				{
+					cout << "\nSorry, you can't sell what you dont have.\nPlease choose again\n";
+					retry = 1;
+				}
+
+			} while (retry == 1 || choice2 > 8 || choice2 < 1);
+
+
+			do
+			{
+				cout << "\nThere are " << tempCheck << "x " << item[choice2 - 1] << " available\n";
+				cout << "Enter a quantity to sell: ";
+				cin >> choice3;
+				retry = cin.fail();
+				cin.clear();
+				cin.ignore(std::numeric_limits<int>::max(), '\n');
+
+				if (!EnoughDosh(item[choice2 - 1], item, choice3, prices, mDosh, buySell))
+				{
+					break;
+				}
+
+				if (retry == 1)
+				{
+					cout << "Invalid Entry\n";
+				}
+				else if (choice3 > tempCheck || choice3 < 1)
+				{
+					cout << "Enter a number from 1 to " << tempCheck << "\n";
+					retry = 1;
+				}
+
+				if (retry != 1 && (EnoughDosh(item[choice2 - 1], item, choice3, prices, mDosh, buySell)))
+				{
+					cout << "\nPotion Seller can afford this item. \nEnter '0' to cancel and '1' to continue\nContinue with Sale?:";
+					buySell -= (choice3 * fees[1]);
+
+					do
+					{
+
+
+						cout << "\nEnter a choice: ";
+						cin >> choice4;
+						cout << endl;
+						retry = cin.fail();
+						cin.clear();
+						cin.ignore(std::numeric_limits<int>::max(), '\n');
+
+						if (retry == 1)
+						{
+							cout << "Invalid Entry\n";
+						}
+						else if (choice4 > 1 || choice4 < 0)
+						{
+							retry = 1;
+							cout << "Enter '1' or '0' \n";
+						}
+					} while (retry == 1);
+
+					cout << endl;
+
+					if (choice4 == 1)
+					{
+						Transfer(item[choice2 - 1], choice3, pStock, mStock);
+						mDosh -= buySell;
+						pDosh += buySell;
+					}
+					else
+					{
+						break;
+					}
+				}
+				else
+				{
+					retry = 1;
+				}
+			} while (retry == 1);
+
+			break;
+
+		case 4: //exit program
+			cout << "\nThanks for shoppping!\n";
+			cout << "Player Dosh: $" << pDosh << endl;
+			cout << "\nYour inventory now has:\n";
+			PrintStock(item, prices, pStock);
+			return 0;
+			break;
+
+		default:
+			cout << "Your choice is invalid. Please choose '1', '2' or '3'\n";
+			break;
+		}
+
+		if (choice1 == 4)
+		{
+			test = false;
+			cout << endl << endl;
+		}
+		else
+		{
+			test = true;
+		}
+	} while (test);
+	return 0;
+}
+
+
+
+
 
 int main()
 {
@@ -915,7 +1204,7 @@ int main()
 				NULL;
 
 			case 2:
-
+				
 				choice2 = GetChoice("\n\nEnter 1 or 2", 2);
 
 
