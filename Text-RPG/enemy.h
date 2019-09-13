@@ -7,13 +7,7 @@
 class Enemy : public Being
 {
 public:
-	Enemy()
-	{
-		SetHealth(100);
-		SetSpeed(5);
-		SetStrength(3);
-		SetLuck(1);
-	}
+	Enemy() {};
 	~Enemy() {}
 
 	void Attack(Being& player)

@@ -43,7 +43,7 @@ public:
 
 
 	//Item and Inventory Functions
-	bool UseItem(Item for_use, Being& use_from)
+	bool UseItem(Item for_use, Being& use_from) //UseItem() without adding effects upon discard
 	{
 		for (unsigned int i = 0; i <= stock.size(); i++)
 		{
@@ -77,7 +77,7 @@ public:
 		return temp;
 	}
 
-	int PrintStock(Being owner)
+	int PrintStock(Being& owner)
 	{
 		cout << endl << owner.GetName() << "'s stock contains:\n";
 
@@ -105,39 +105,10 @@ public:
 		return ans;
 	}
 
-	bool EnoughDosh(Item item, int count, Being& merchant, Being& buyer)	//Checks the buyers Do$h based on price and item to buy
+	void Transfer(int &amount,Being &takeFrom, Being &giveTo)															//Moves currency from being to being
 	{
-		bool ans = false;
-		int i = 0;
-		int j = count;
-		int tempPrice = 0;
-
-		for (; i < merchant.stock.size(); i++)
-		{
-			if (item.GetName() == merchant.stock[i].GetName())
-			{
-				tempPrice += count * (merchant.stock[i].GetValue());
-				j--;
-			}
-
-			if (j <= 0)
-			{
-				break;
-			}
-		}
-
-		if (buyer.GetValue() >= tempPrice)
-		{
-			//buySell = (count * tempPrice);
-			ans = true;
-		}
-		else
-		{
-			ans = false;
-			cout << "\n\n>>>>>>>>>>NOT ENOUGH DOSH!!!!<<<<<<<<<<\n\t\t:(\n\n";
-		}
-
-		return ans;
+		takeFrom.value -= amount;
+		giveTo.value += amount;
 	}
 
 	void Transfer(Item item, int count, Being& takeFrom, Being& giveTo)		//Moves a number of items to owner from other character in trade

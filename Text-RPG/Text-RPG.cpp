@@ -1,9 +1,10 @@
 // Text-RPG.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include <iostream>
+//#include "being.h"
 #include "player.h"
-#include "being.h"
-#include "stocked.h"
+
+//#include "stocked.h"
 #include "enemy.h"
 
 using namespace std;
@@ -46,6 +47,18 @@ int PlayerTurn()
 	int choice = (GetChoice("\n1-Attack\n2-Heal\n3-Escape\n", 3));
 
 	return choice;
+}
+
+void EquipItem(Player& player, Item& itemToEquip)
+{
+	for (int i = 0; i < player.stock.size(); i++)
+	{
+		if (itemToEquip.GetName() == player.stock[i].GetName())
+		{
+			itemToEquip.SetIsEquipped(true);
+			break;
+		}
+	}
 }
 
 void Battle(Player& player, Being& enemy)
@@ -458,21 +471,55 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 	player.SetHealth(player.maxHealth);
 }
 
+bool EnoughDosh(Item item, int count, Being& merchant, Being& buyer, int& tempCost)	//Checks the buyers Do$h based on price and item to buy
+{
+	bool ans = false;
+	int i = 0;
+	int j = count;
+	int tempPrice = 0;
+
+	for (; i < merchant.stock.size(); i++)
+	{
+		if (item.GetName() == merchant.stock[i].GetName())
+		{
+			tempPrice += count * (merchant.stock[i].GetValue());
+			j--;
+		}
+
+		if (j <= 0)
+		{
+			break;
+		}
+	}
+
+	if (buyer.GetValue() >= tempPrice)
+	{
+		tempCost = (count * tempPrice);
+		ans = true;
+	}
+	else
+	{
+		ans = false;
+		cout << "\n\n>>>>>>>>>>NOT ENOUGH DOSH!!!!<<<<<<<<<<\n\t\t:(\n\n";
+	}
+
+	return ans;
+}
+
+
+
 int Trading(Player& player, Being& merchant)
 {
 	int choice = 0;
 	int choice1 = 0;
 	int choice2 = 0;
 	int choice3 = 0;
-	int retry = NULL;
-	int tempCheck = NULL;
+	int choice4 = 0;
+	int tempCost = 0;
+	int retry = 0;
+	int tempCheck = 0;
 
-
-
-	bool test = false;							//Program loop stopper
-
-	//merchant fees to item sales. reduces merchants buying prices by fees[i]
-	int fees[] = { 10, 30, 100 };
+	bool exit = false;							//Program loop stopper
 
 	cout << "Welcome to Potion Seller's shop\nThe Potion Seller currently has:\n";
 	merchant.PrintStock(merchant);
@@ -541,14 +588,15 @@ int Trading(Player& player, Being& merchant)
 
 			do
 			{
-				cout << "\nThere are " << tempCheck << "x " << item[choice2 - 1] << " available\n";
+				cout << "\nThere are " << tempCheck << "x " << merchant.stock[choice2 - 1].GetName() << " available\n";
 				cout << "\nEnter a quantity to purchase: ";
 				cin >> choice3;
 				retry = cin.fail();
 				cin.clear();
 				cin.ignore(std::numeric_limits<int>::max(), '\n');
 
-				if (!EnoughDosh(item[choice2 - 1], item, choice3, prices, pDosh, buySell))
+
+				if (!EnoughDosh(merchant.stock[choice2 - 1], choice3, merchant, player, tempCost))
 				{
 					break;
 				}
@@ -562,13 +610,13 @@ int Trading(Player& player, Being& merchant)
 					retry = 1;
 				}
 
-				if (retry != 1 && (EnoughDosh(item[choice2 - 1], item, choice3, prices, pDosh, buySell)))
+				if (retry != 1 && (EnoughDosh(merchant.stock[choice2 - 1], choice3, merchant, player, tempCost)))
 				{
 					cout << "\nYou can afford this item. \nEnter '0' to cancel and '1' to continue\nContinue with Purchase?:";
 
 					do
 					{
-						if (!EnoughDosh(item[choice2 - 1], item, choice3, prices, pDosh, buySell))
+						if (!EnoughDosh(merchant.stock[choice2 - 1], choice3, merchant, player, tempCost))
 						{
 							break;
 						}
@@ -590,13 +638,12 @@ int Trading(Player& player, Being& merchant)
 						}
 					} while (retry == 1);
 
-					cout << endl; //console spacing
+					cout << endl; 
 
 					if (choice4 == 1)
 					{
-						Transfer(item[choice2 - 1], choice3, mStock, pStock);
-						pDosh -= buySell;
-						mDosh += buySell;
+						merchant.Transfer(merchant.stock[choice2 - 1], choice3, merchant, player);
+						merchant.Transfer(tempCost, merchant, player);
 					}
 					else
 					{
@@ -613,7 +660,6 @@ int Trading(Player& player, Being& merchant)
 		case 3: //sell an item
 			cout << "\nYour inventory:\n";
 			merchant.PrintStock(merchant);
-			cout << "\nThis merchant charges $" << fees[1] << "per Item you sell.\n\nWhat would you like to Sell?\nEnter a number from 1 to 8\n";
 
 			do
 			{
@@ -633,7 +679,7 @@ int Trading(Player& player, Being& merchant)
 				}
 				else
 				{
-					tempCheck = ItemCounter(item[(choice2 - 1)], pStock);
+					tempCheck = player.ItemCounter(player.stock[choice2], player);
 				}
 
 				if (tempCheck <= 0)
@@ -647,14 +693,14 @@ int Trading(Player& player, Being& merchant)
 
 			do
 			{
-				cout << "\nThere are " << tempCheck << "x " << item[choice2 - 1] << " available\n";
+				cout << "\nThere are " << tempCheck << "x " << player.stock[choice2 - 1].GetName() << " available\n";
 				cout << "Enter a quantity to sell: ";
 				cin >> choice3;
 				retry = cin.fail();
 				cin.clear();
 				cin.ignore(std::numeric_limits<int>::max(), '\n');
 
-				if (!EnoughDosh(item[choice2 - 1], item, choice3, prices, mDosh, buySell))
+				if (!EnoughDosh(merchant.stock[choice2 - 1], choice3, player, merchant, tempCost))
 				{
 					break;
 				}
@@ -669,15 +715,12 @@ int Trading(Player& player, Being& merchant)
 					retry = 1;
 				}
 
-				if (retry != 1 && (EnoughDosh(item[choice2 - 1], item, choice3, prices, mDosh, buySell)))
+				if (retry != 1 && (EnoughDosh(merchant.stock[choice2 - 1], choice3, player, merchant, tempCost)))
 				{
 					cout << "\nPotion Seller can afford this item. \nEnter '0' to cancel and '1' to continue\nContinue with Sale?:";
-					buySell -= (choice3 * fees[1]);
 
 					do
 					{
-
-
 						cout << "\nEnter a choice: ";
 						cin >> choice4;
 						cout << endl;
@@ -700,9 +743,8 @@ int Trading(Player& player, Being& merchant)
 
 					if (choice4 == 1)
 					{
-						Transfer(item[choice2 - 1], choice3, pStock, mStock);
-						mDosh -= buySell;
-						pDosh += buySell;
+						player.Transfer(player.stock[choice2], choice3, player, merchant);
+						player.Transfer(choice3, player, merchant);
 					}
 					else
 					{
@@ -719,32 +761,29 @@ int Trading(Player& player, Being& merchant)
 
 		case 4: //exit program
 			cout << "\nThanks for shoppping!\n";
-			cout << "Player Dosh: $" << pDosh << endl;
+			cout << "Player Dosh: $" << player.GetValue() << endl;
 			cout << "\nYour inventory now has:\n";
-			PrintStock(item, prices, pStock);
+			player.PrintStock(player);
 			return 0;
 			break;
 
 		default:
-			cout << "Your choice is invalid. Please choose '1', '2' or '3'\n";
+			cout << "Your choice is invalid. Please choose '1', '2', '3' or '4'\n";
 			break;
 		}
 
 		if (choice1 == 4)
 		{
-			test = false;
+			exit = false;
 			cout << endl << endl;
 		}
 		else
 		{
-			test = true;
+			exit = true;
 		}
-	} while (test);
+	} while (exit);
 	return 0;
 }
-
-
-
 
 
 int main()
@@ -1192,40 +1231,72 @@ int main()
 	do
 	{
 
-		Print("The three merchants await:\n(1) - Blessed Merchant\n(2) - Cursed Merchant\n(3) - Suspicious Dealer\n\n");
+		Print("The three merchants await:\n(1) - Blessed Merchant\n(2) - Cursed Merchant\n(3) - Shady Salesman\n\n(4) - Exit Room");
 
 		choice = GetChoice("What will you do? (1, 2, 3, or 4)", 4);
 
 			switch (choice)
 			{
 			case 1:
-				Print("\n\n");
-
-				NULL;
-
-			case 2:
-				
-				choice2 = GetChoice("\n\nEnter 1 or 2", 2);
-
-
+				Trading(player, blessedMerchant);
 				break;
 
+			case 2:
+				Trading(player, cursedMerchant);
+				break;
 
 			case 3:
-
-
+				Trading(player, shadySalesman);
 				break;
 
 			case 4:
-
 				exitRoom = true;
-
 				break;
 
 			default:
 				break;
 			}
 		
+	} while (!exitRoom);
+
+	Print("\n\n You head into the next room...\n\n");
+	exitRoom = false;
+	for (int i = 0; i < 3; i++) { inRoomTracker[i] = false; }
+	system("PAUSE");
+	Print("\n\n\n\n\n\n\n\n\n\n");
+
+	//ROOM 4 Begins Here----------------------------------------------------------------
+
+	do
+	{
+		Print("A shadowy figure sits on a throne before you.");
+
+		choice = GetChoice("What will you do? (1, 2, 3, or 4)", 4);
+
+		//if HolyHelm, CursedCandle, Prescious pendant, choice = 1,2 or 3
+
+		switch (choice)
+		{
+		case 1:
+
+			break;
+
+		case 2:
+
+			break;
+
+		case 3:
+
+			break;
+
+		case 4:
+
+			break;
+
+		default:
+			break;
+		}
+
 	} while (!exitRoom);
 
 	return 0;
