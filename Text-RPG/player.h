@@ -39,7 +39,7 @@ public:
 			cout << "\nYou attacked " << enemy.GetName() << " and dealt " << damage << " damage!!!\n";
 		}
 
-		if (damage > enemy.GetHealth())
+		if (damage >= enemy.GetHealth())
 		{
 			enemy.SetHealth(0);
 		}

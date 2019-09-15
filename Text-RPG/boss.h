@@ -80,7 +80,6 @@ public:
 
 			cout << "\n\nPlayer Health: " << player.GetHealth() << endl << endl;
 			cout << GetName() << " Health: " << GetHealth() << endl << endl;
-			system("PAUSE");
 			cout << "\n";
 		}
 		else

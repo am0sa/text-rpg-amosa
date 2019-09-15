@@ -1,11 +1,11 @@
 // Text-RPG.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include <iostream>
-//#include "being.h"
+#include "being.h"
 #include "player.h"
-#include "boss.h"
-//#include "stocked.h"
+#include "stocked.h"
 #include "enemy.h"
+#include "boss.h"
 
 
 using namespace std;
@@ -61,7 +61,7 @@ void EquipItem(Player& player, Item& itemToEquip)
 
 void Battle(Player& player, Being& enemy)
 {
-	int enemiesAlive = 0;
+	int enemiesAlive = NULL;
 	bool battleOver = false;
 
 	vector<Being> turnOrder;
@@ -82,7 +82,7 @@ void Battle(Player& player, Being& enemy)
 	{
 		enemiesAlive = (enemy.GetHealth());
 
-		if (enemiesAlive <= 0 || (enemy.GetHealth() == 0))
+		if (enemiesAlive <= 0)
 		{
 			battleOver = true;
 		}
@@ -91,62 +91,70 @@ void Battle(Player& player, Being& enemy)
 			battleOver = false;
 		}
 
+		cout << "\n\tTest Enemy HP: " << enemiesAlive << "\n\tTest BattleOver: " << battleOver << endl;
+
 		int i = 0;
-		for (; i < turnOrder.size(); i++)
+
+		if (!battleOver)
 		{
-			if (turnOrder[i].GetName() == enemy.GetName())
+			for (; i < turnOrder.size(); i++)
 			{
-				enemy.Attack(player);
-
-				if (player.GetHealth() <= 0)
+				if (turnOrder[i].GetName() == enemy.GetName())
 				{
-					battleOver = true;
-					Print("\n\n\t\tYou Died :(\n\t\tGAME OVER\n\n\n\n");
-					break;
-				}
-				else
-				{
-					battleOver = false;
-				}
-			}
-			else
-			{
-				int tempX = PlayerTurn();
-				switch (tempX)
-				{
-				case 1:
-					player.Attack(enemy);
+					enemy.Attack(player);
 
-					enemiesAlive = (enemy.GetHealth());
-
-					if (enemiesAlive <= 0 || enemy.GetHealth() == 0)
+					if (player.GetHealth() <= 0)
 					{
 						battleOver = true;
+						Print("\n\n\t\tYou Died :(\n\t\tGAME OVER\n\n\n\n");
 						break;
 					}
 					else
 					{
 						battleOver = false;
 					}
-					break;
-
-				case 2:
-					player.Heal();
-					break;
-
-				case 3:
-					if (player.Escape())
+				}
+				else
+				{
+					int tempX = PlayerTurn();
+					switch (tempX)
 					{
-						battleOver = true;
-						Print("\n\nYou Escaped!!!\n");
-					}
-					break;
+					case 1:
+						player.Attack(enemy);
 
-				default:
-					break;
+						enemiesAlive = (enemy.GetHealth());
+
+						if (enemiesAlive <= 0 || enemy.GetHealth() == 0)
+						{
+							battleOver = true;
+							break;
+						}
+						else
+						{
+							battleOver = false;
+						}
+						break;
+
+					case 2:
+						player.Heal();
+						break;
+
+					case 3:
+						if (player.Escape())
+						{
+							battleOver = true;
+							Print("\n\nYou Escaped!!!\n");
+						}
+						break;
+
+					default:
+						break;
+					}
 				}
 			}
+
 		}
+
 	} while (!battleOver);
 	player.SetHealth(player.maxHealth);
 }
@@ -590,7 +598,6 @@ int Trading(Player& player, Being& merchant)
 				cin.clear();
 				cin.ignore(std::numeric_limits<int>::max(), '\n');
 
-
 				if (!EnoughDosh(merchant.stock[choice2 - 1], choice3, merchant, player, tempCost))
 				{
 					break;
@@ -841,40 +848,7 @@ int main()
 	whiskey.SetItemName("Whiskey");
 	whiskey.SetValue(50);
 
-	//Merchant Creation---------------------------------------------------------
-	Being blessedMerchant;
-	blessedMerchant.SetName("Blessed Merchant");
-	blessedMerchant.SetHealth(777);
-	blessedMerchant.SetSpeed(7);
-	blessedMerchant.SetStrength(7);
-	blessedMerchant.SetLuck(7);
-	blessedMerchant.SetValue(2500);
-	blessedMerchant.stock.push_back(healthgem);
-	blessedMerchant.stock.push_back(healthgem);
-	blessedMerchant.stock.push_back(healthgem);
-	blessedMerchant.stock.push_back(healthgem);
-	blessedMerchant.stock.push_back(fireBomb);
-	blessedMerchant.stock.push_back(royalInvitation);
 
-	Being cursedMerchant;
-	cursedMerchant.SetName("Cursed Merchant");
-	cursedMerchant.SetHealth(666);
-	cursedMerchant.SetSpeed(6);
-	cursedMerchant.SetStrength(6);
-	cursedMerchant.SetLuck(6);
-	blessedMerchant.SetValue(2500);
-	cursedMerchant.stock.push_back(gamblersRing);
-	cursedMerchant.stock.push_back(whiskey);
-	cursedMerchant.stock.push_back(whiskey);
-
-	Enemy shadySalesman;
-	shadySalesman.SetName("Shady Salesman");
-	shadySalesman.SetHealth(1500);
-	shadySalesman.SetSpeed(14);
-	shadySalesman.SetStrength(0);
-	shadySalesman.SetLuck(15);
-	shadySalesman.SetValue(80085);
-	shadySalesman.AddItem(ghostlyGarments,shadySalesman.stock);
 	
 
 
@@ -896,7 +870,7 @@ int main()
 		cout << "\nYou have " << startingPoints << " skill points to allocate\nWhat will you level up?\nAttributes:\n\n";
 		cout << "1-Health\n2-Speed\n3-Strength\n4-Luck\n";
 
-		choice = GetChoice("\nWHat would you like to level up?\n", 4);
+		choice = GetChoice("\nWhat would you like to level up?\n", 4);
 
 		switch (choice)
 		{
@@ -958,8 +932,6 @@ int main()
 	spiderBoss.SetStrength(7);
 	spiderBoss.SetLuck(3);
 	spiderBoss.SetName("Spider X");
-
-	system("PAUSE");
 
 	//ROOM 1 BEGINS HERE--------------------------------------------------------
 	Print("You awaken in a strange room...\n");
@@ -1066,13 +1038,8 @@ int main()
 	
 
 	Print("\n\n You head into the next room...\n\n");
-	system("PAUSE");
 	exitRoom = false;
 	for (int i = 0; i < 3; i++)	{ inRoomTracker[i] = false; }
-
-	
-
-	system("PAUSE");
 
 	//ROOM 2 BEGINS HERE--------------------------------------------------------
 
@@ -1172,7 +1139,6 @@ int main()
 
 			case 2:
 				Print("\n\nYou draw closer to the sound, and the smell of blood fills the air...\n\n");
-				system("PAUSE");
 				Print("\n\nBefore you can turn back, three huge, hairy spiders surround you...\n");
 
 				Battle(player, spider1, spider2, spiderBoss);
@@ -1208,12 +1174,44 @@ int main()
 	delete& spiderBoss;
 	delete& wanderingGhost;
 
-	system("PAUSE");
-
 	//ROOM 3 BEGINS HERE--------------------------------------------------------
 	Print("You enter a circular hall, lined with candles.\n Three Merchants sit in a straight line. A stairway behind them leads to the final room...\n");
 	Print("\n\tYou can repeat actions in this room\n\n");
-	system("PAUSE");
+
+	//Merchant Creation---------------------------------------------------------
+	Being blessedMerchant;
+	blessedMerchant.SetName("Blessed Merchant");
+	blessedMerchant.SetHealth(777);
+	blessedMerchant.SetSpeed(7);
+	blessedMerchant.SetStrength(7);
+	blessedMerchant.SetLuck(7);
+	blessedMerchant.SetValue(2500);
+	blessedMerchant.stock.push_back(healthgem);
+	blessedMerchant.stock.push_back(healthgem);
+	blessedMerchant.stock.push_back(healthgem);
+	blessedMerchant.stock.push_back(healthgem);
+	blessedMerchant.stock.push_back(fireBomb);
+	blessedMerchant.stock.push_back(royalInvitation);
+
+	Being cursedMerchant;
+	cursedMerchant.SetName("Cursed Merchant");
+	cursedMerchant.SetHealth(666);
+	cursedMerchant.SetSpeed(6);
+	cursedMerchant.SetStrength(6);
+	cursedMerchant.SetLuck(6);
+	blessedMerchant.SetValue(2500);
+	cursedMerchant.stock.push_back(gamblersRing);
+	cursedMerchant.stock.push_back(whiskey);
+	cursedMerchant.stock.push_back(whiskey);
+
+	Enemy shadySalesman;
+	shadySalesman.SetName("Shady Salesman");
+	shadySalesman.SetHealth(1500);
+	shadySalesman.SetSpeed(14);
+	shadySalesman.SetStrength(0);
+	shadySalesman.SetLuck(15);
+	shadySalesman.SetValue(80085);
+	shadySalesman.AddItem(ghostlyGarments, shadySalesman.stock);
 
 	do
 	{
@@ -1246,10 +1244,13 @@ int main()
 		
 	} while (!exitRoom);
 
+	delete& cursedMerchant;
+	delete& blessedMerchant;
+	delete& shadySalesman;
+
 	Print("\n\n You head into the next room...\n\n");
 	exitRoom = false;
 	for (int i = 0; i < 3; i++) { inRoomTracker[i] = false; }
-	system("PAUSE");
 	Print("\n\n\n\n\n\n\n\n\n\n");
 
 	//ROOM 4 Begins Here----------------------------------------------------------------
