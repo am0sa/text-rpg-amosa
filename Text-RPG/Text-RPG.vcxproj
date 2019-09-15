@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="being.h" />
+    <ClInclude Include="boss.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="items.h" />
     <ClInclude Include="player.h" />

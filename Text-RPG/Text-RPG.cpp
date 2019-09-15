@@ -3,9 +3,10 @@
 #include <iostream>
 //#include "being.h"
 #include "player.h"
-
+#include "boss.h"
 //#include "stocked.h"
 #include "enemy.h"
+
 
 using namespace std;
 
@@ -35,7 +36,6 @@ int GetChoice(string text, int maxChoice = 3)
 		retry = cin.fail();
 		cin.clear();
 		cin.ignore(std::numeric_limits<int>::max(), '\n');
-
 	} while (retry == 1 || choice > maxChoice || choice < 1);
 	cout << endl << endl;
 	return choice;
@@ -44,9 +44,7 @@ int GetChoice(string text, int maxChoice = 3)
 int PlayerTurn()
 {
 	Print("\nChoose an action:\n");
-	int choice = (GetChoice("\n1-Attack\n2-Heal\n3-Escape\n", 3));
-
-	return choice;
+	return (GetChoice("\n1-Attack\n2-Heal\n3-Escape\n", 3));
 }
 
 void EquipItem(Player& player, Item& itemToEquip)
@@ -63,7 +61,7 @@ void EquipItem(Player& player, Item& itemToEquip)
 
 void Battle(Player& player, Being& enemy)
 {
-	int enemiesAlive = NULL;
+	int enemiesAlive = 0;
 	bool battleOver = false;
 
 	vector<Being> turnOrder;
@@ -84,7 +82,7 @@ void Battle(Player& player, Being& enemy)
 	{
 		enemiesAlive = (enemy.GetHealth());
 
-		if (enemiesAlive <= 0)
+		if (enemiesAlive <= 0 || (enemy.GetHealth() == 0))
 		{
 			battleOver = true;
 		}
@@ -96,8 +94,6 @@ void Battle(Player& player, Being& enemy)
 		int i = 0;
 		for (; i < turnOrder.size(); i++)
 		{
-
-
 			if (turnOrder[i].GetName() == enemy.GetName())
 			{
 				enemy.Attack(player);
@@ -123,7 +119,7 @@ void Battle(Player& player, Being& enemy)
 
 					enemiesAlive = (enemy.GetHealth());
 
-					if (enemiesAlive <= 0)
+					if (enemiesAlive <= 0 || enemy.GetHealth() == 0)
 					{
 						battleOver = true;
 						break;
@@ -143,7 +139,6 @@ void Battle(Player& player, Being& enemy)
 					{
 						battleOver = true;
 						Print("\n\nYou Escaped!!!\n");
-						break;
 					}
 					break;
 
@@ -896,7 +891,7 @@ int main()
 	//Allow player customize attributes-----------------------------------------
 	while (startingPoints>0)
 	{
-		int choice = NULL;
+		int choice = 0;
 
 		cout << "\nYou have " << startingPoints << " skill points to allocate\nWhat will you level up?\nAttributes:\n\n";
 		cout << "1-Health\n2-Speed\n3-Strength\n4-Luck\n";
@@ -924,7 +919,6 @@ int main()
 		default:
 			continue;
 		}
-
 		startingPoints--;
 	}	
 	PrintStats(player);
@@ -966,7 +960,6 @@ int main()
 	spiderBoss.SetName("Spider X");
 
 	system("PAUSE");
-	system("CLEAR");
 
 	//ROOM 1 BEGINS HERE--------------------------------------------------------
 	Print("You awaken in a strange room...\n");
@@ -1035,19 +1028,18 @@ int main()
 			case 3:
 				Print("\n\nA neutral spirit appears!!!\nIt Says over and over...\n");
 				Print("\nThe Holy Knight stands in defiance of all enemies\nGreat treasure lies deep in accursed darkness\nGive an offering to the Lost Throne\n\n");
-				choice1 = GetChoice("\n1-Leave\n2-Attack\n");
+				choice1 = GetChoice("\n1-Leave\n2-Attack\n", 2);
 
 				switch (choice1)
 				{
 				case 1:
-					"\n\nYou choose to leave the ghost and keep moving\n";
+					cout << "\n\nYou choose to leave the ghost and keep moving\n";
 					break;
 
 				case 2:
 					player.Attack(wanderingGhost);
 					Battle(player, wanderingGhost);
 					if (player.GetHealth() <= 0) { return 0; }
-
 					break;
 
 				default:
@@ -1075,14 +1067,12 @@ int main()
 
 	Print("\n\n You head into the next room...\n\n");
 	system("PAUSE");
-	system("CLEAR");
 	exitRoom = false;
 	for (int i = 0; i < 3; i++)	{ inRoomTracker[i] = false; }
 
 	
 
 	system("PAUSE");
-	system("CLEAR");
 
 	//ROOM 2 BEGINS HERE--------------------------------------------------------
 
@@ -1219,9 +1209,6 @@ int main()
 	delete& wanderingGhost;
 
 	system("PAUSE");
-	system("CLEAR");
-
-
 
 	//ROOM 3 BEGINS HERE--------------------------------------------------------
 	Print("You enter a circular hall, lined with candles.\n Three Merchants sit in a straight line. A stairway behind them leads to the final room...\n");
@@ -1267,38 +1254,44 @@ int main()
 
 	//ROOM 4 Begins Here----------------------------------------------------------------
 
-	do
+	if (holyHelm.IsEquipped())
 	{
-		Print("A shadowy figure sits on a throne before you.");
-
-		choice = GetChoice("What will you do? (1, 2, 3, or 4)", 4);
-
-		//if HolyHelm, CursedCandle, Prescious pendant, choice = 1,2 or 3
-
-		switch (choice)
-		{
-		case 1:
-
-			break;
-
-		case 2:
-
-			break;
-
-		case 3:
-
-			break;
-
-		case 4:
-
-			break;
-
-		default:
-			break;
-		}
-
-	} while (!exitRoom);
-
+		Enemy legionaire1("Knight", 1999, 10, 5, 15);
+		Enemy legionaire2("Rearguard", 2500, 5, 15, 7);
+		Boss legionCaptain("Lord Regent", 7777, 11, 1, 18, "Penance", 10);
+		Print("The Knight's Journey leads to the Lord Regent.\n");
+		Battle(player, legionaire1, legionaire2, legionCaptain);
+		if (player.GetHealth() <= 0) { return 0; }
+		Print("\nAll enemies are vanquished... for now...\n");
+		Print("\n\n\tText RPG will be released in 2021. Thanks for playing.");
+	}
+	else if (presciousPendant.IsEquipped())
+	{
+		Enemy bandit("Raven", 3500, 15, 5, 5);
+		Enemy bandit2("Crow", 3500, 15, 5, 5);
+		Boss banditCaptain("Kingfisher", 5000, 25, 10, 10, "Bleed", 25);
+		Battle(player, bandit, bandit2, banditCaptain);
+		if (player.GetHealth() <= 0) { return 0; }
+		Print("\nThe bandit's drop a map... Great treasure awaits those who possess this map...");
+		Print("\n\n\tText RPG will be released in 2021. Thanks for playing.");
+	}
+	else if (cursedCandle.IsEquipped())
+	{
+		Boss undeadKing("Alfred the Accursed", 6666, 7, 1, 18, "Frenzy", 45);
+		Boss undeadCleric("David the Damned", 6666, 7, 1, 18, "Terror", 45);
+		Battle(player, undeadKing, undeadCleric);
+		if (player.GetHealth() <= 0) { return 0; }
+		Print("\nThe Curse of Kings is broken... Free for the first time, you step into the light...");
+		Print("\n\n\tText RPG will be released in 2021. Thanks for playing.");
+	}
+	else
+	{
+		Print("\nYou are not meant to be here. Begone!!!\n\n");
+		Boss ggEzPz("Developer's Demon", 543210, 21, 100, 1, "Pew pew", 99);
+		Battle(player, ggEzPz);
+		if (player.GetHealth() <= 0) { Print("\nHa\tHa\tHa Ha hahaha...."); return 0; }
+		Print("\n\nDeveloped Entirely by Amosa.");
+	}
 	return 0;
 }
 

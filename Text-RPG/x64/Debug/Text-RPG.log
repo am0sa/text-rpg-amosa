@@ -3,7 +3,10 @@ C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\bei
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\being.h(165,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(27,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\player.h(64,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\enemy.h(18,14): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(215,90): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(378,106): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\enemy.h(25,14): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\boss.h(42,20): warning C4018:  '<=': signed/unsigned mismatch
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\boss.h(49,14): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\boss.h(62,38): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(220,90): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\Text-RPG.cpp(383,106): warning C4267:  'argument': conversion from 'size_t' to 'int', possible loss of data
   Text-RPG.vcxproj -> C:\Users\Amosa.Osayande\Documents\Visual Studio 2019\text-rpg-amosa\Text-RPG\x64\Debug\Text-RPG.exe

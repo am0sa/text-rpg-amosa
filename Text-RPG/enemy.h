@@ -8,6 +8,13 @@ class Enemy : public Being
 {
 public:
 	Enemy() {};
+	Enemy(string input_name, int input_health, int input_speed, int input_luck, int input_strength)
+	{
+		SetName(input_name);
+		SetHealth(input_health);
+		SetSpeed(input_speed);
+		SetStrength(input_strength);
+	}
 	~Enemy() {}
 
 	void Attack(Being& player)
