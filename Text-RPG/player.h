@@ -24,7 +24,7 @@ public:
 	void Attack(Being& enemy)
 	{
 		int damage = 0;
-		srand(time(NULL));
+		srand((unsigned)time(NULL));
 
 		if (Dodge(enemy, GetSpeed()))
 		{
@@ -61,7 +61,7 @@ public:
 	bool Escape()
 	{
 		bool result = false;
-		srand(time(NULL));
+		srand((unsigned)time(NULL));
 		result = ((GetSpeed() * (rand() % 11)) >= 50);
 
 		if (result)

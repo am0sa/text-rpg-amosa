@@ -22,7 +22,7 @@ public:
 	
 	unsigned int effectStacks = 1;
 	unsigned int effectDamage = 10;
-	unsigned int rageHealth = 3333;
+	int rageHealth = 3333;
 	bool statusApplied = false;
 	bool rageMode = false;
 	string effectName = "";
@@ -42,11 +42,13 @@ public:
 			if (GetHealth() <= rageHealth)
 			{
 				rageMode = true;
+				statusApplied = true;
+				SetHealth(GetHealth() + 1250);
 			}
 
 			int damage = 0;
 			int bonusDMG = 0;
-			srand(time(NULL));
+			srand((unsigned)time(NULL));
 
 			if (Dodge(player, GetSpeed()))
 			{
@@ -59,7 +61,7 @@ public:
 				damage = GetStrength() * GetStrength() * 4 + (GetLuck() * rand() % 20);
 				bonusDMG = (effectStacks * effectDamage);
 				effectStacks++;
-				if (rageMode) { damage = (damage * 1.1); }
+				if (rageMode) { damage += (damage / 10 ); }
 				cout << GetName() << " Attacked!! \nYou took " << damage << " damage!!!\n";
 				cout << "You also took " << bonusDMG << " " << GetEffectName() << " damage\n";
 			}
@@ -71,11 +73,6 @@ public:
 			else
 			{
 				player.SetHealth(player.GetHealth() - (damage + bonusDMG));
-			}
-			//If boss is better than player in any attribute, apply special effect
-			if ((GetSpeed() > player.GetSpeed()) || GetLuck() > player.GetLuck())
-			{
-
 			}
 
 			cout << "\n\nPlayer Health: " << player.GetHealth() << endl << endl;

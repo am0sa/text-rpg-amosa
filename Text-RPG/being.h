@@ -141,7 +141,7 @@ public:
 	virtual void Attack(Being& target)
 	{
 		int damage = 0;
-		srand(time(NULL));
+		srand((unsigned)time(NULL));
 		damage = GetStrength()*GetStrength() + (GetLuck() * rand() % 41);
 		if (damage > target.GetHealth())
 		{
@@ -162,7 +162,7 @@ public:
 	virtual bool Escape()
 	{
 		bool result = false;
-		srand(time(NULL));
+		srand((unsigned)time(NULL));
 		result = ((GetSpeed() * (rand() % 11)) >= 50);
 		cout << endl << GetName() << " Escaped!!!\n";
 		return result;

@@ -22,7 +22,7 @@ public:
 		if (GetHealth() > 0)
 		{
 			int damage = 0;
-			srand(time(NULL));
+			srand((unsigned)time(NULL));
 
 			if (Dodge(player, GetSpeed()))
 			{

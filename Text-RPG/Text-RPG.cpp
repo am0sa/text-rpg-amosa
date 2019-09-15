@@ -1,10 +1,10 @@
 // Text-RPG.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include <iostream>
-#include "being.h"
+//#include "being.h"
 #include "player.h"
-#include "stocked.h"
-#include "enemy.h"
+//#include "stocked.h"
+//#include "enemy.h"
 #include "boss.h"
 
 
@@ -63,9 +63,7 @@ void Battle(Player& player, Being& enemy)
 {
 	int enemiesAlive = NULL;
 	bool battleOver = false;
-
 	vector<Being> turnOrder;
-
 
 	if (player.GetSpeed() > enemy.GetSpeed())
 	{
@@ -90,8 +88,6 @@ void Battle(Player& player, Being& enemy)
 		{
 			battleOver = false;
 		}
-
-		cout << "\n\tTest Enemy HP: " << enemiesAlive << "\n\tTest BattleOver: " << battleOver << endl;
 
 		int i = 0;
 
@@ -152,9 +148,11 @@ void Battle(Player& player, Being& enemy)
 					}
 				}
 			}
-
 		}
-
+		else
+		{
+			break;
+		}
 	} while (!battleOver);
 	player.SetHealth(player.maxHealth);
 }
@@ -165,7 +163,6 @@ void Battle(Player& player, Being& being, Being& being2)
 	bool battleOver = false;
 
 	vector<Being> turnOrder;
-
 
 	if (player.GetSpeed() > being.GetSpeed())
 	{
@@ -211,68 +208,63 @@ void Battle(Player& player, Being& being, Being& being2)
 			battleOver = true;
 		}
 
-		int i = 0;
-		for (; i < turnOrder.size(); i++)
+		if (!battleOver)
 		{
-			if (turnOrder[i].GetName() == being.GetName())
+			int i = 0;
+			for (; i < turnOrder.size(); i++)
 			{
-				being.Attack(player);
-			}
-			else if (turnOrder[i].GetName() == being2.GetName())
-			{
-				being2.Attack(player);
-
-			}
-			else
-			{
-				int tempY = GetChoice("Choose an enemy to focus on this turn", (turnOrder.size() - 1));
-				int tempX = PlayerTurn();
-				switch (tempY)
+				if (turnOrder[i].GetName() == being.GetName())
 				{
-				case 1:
-					switch (tempX)
-					{
-					case 1:
-						player.Attack(being);
-						break;
-
-					case 2:
-						player.Heal();
-						break;
-
-					case 3:
-						player.Escape();
-						break;
-
-					default:
-						break;
-					}
-					break;
-
-				case 2:
-					switch (tempX)
-					{
-					case 1:
-						player.Attack(being2);
-						break;
-
-					case 2:
-						player.Heal();
-						break;
-
-					case 3:
-						player.Escape();
-						break;
-
-					default:
-						break;
-					}
-					break;
-
-				default:
-					break;
+					being.Attack(player);
 				}
-				
+				else if (turnOrder[i].GetName() == being2.GetName())
+				{
+					being2.Attack(player);
+				}
+				else
+				{
+					int tempY = GetChoice("Choose an enemy to focus on this turn", 2);
+					int tempX = PlayerTurn();
+					switch (tempY)
+					{
+					case 1:
+						switch (tempX)
+						{
+						case 1:
+							player.Attack(being);
+							break;
+						case 2:
+							player.Heal();
+							break;
+						case 3:
+							player.Escape();
+							break;
+						default:
+							break;
+						}
+						break;
+
+					case 2:
+						switch (tempX)
+						{
+						case 1:
+							player.Attack(being2);
+							break;
+						case 2:
+							player.Heal();
+							break;
+						case 3:
+							player.Escape();
+							break;
+						default:
+							break;
+						}
+						break;
+
+					default:
+						break;
+					}
+				}
 			}
 		}
 	} while (!battleOver);
@@ -283,9 +275,7 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 {
 	int enemiesAlive = NULL;
 	bool battleOver = false;
-
 	vector<Being> turnOrder;
-
 
 	if (player.GetSpeed() > being.GetSpeed())
 	{
@@ -350,15 +340,12 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 
 	}
 
-
-
 	do
 	{
 		PrintStats(player);
 		PrintStats(being);
 		PrintStats(being2);
 		PrintStats(being3);
- 
 		enemiesAlive = (being.GetHealth() + being2.GetHealth() + being3.GetHealth());
 
 		if (enemiesAlive > 0)
@@ -370,104 +357,97 @@ void Battle(Player& player, Being& being, Being& being2, Being& being3)
 			battleOver = true;
 		}
 
-		int i = 0;
-		for (; i < turnOrder.size(); i++)
+		if (!battleOver)
 		{
-			if (turnOrder[i].GetName() == being.GetName())
+			int i = 0;
+			for (; i < turnOrder.size(); i++)
 			{
-				being.Attack(player);
-			}
-			else if (turnOrder[i].GetName() == being2.GetName())
-			{
-				being2.Attack(player);
-
-			}
-			else if (turnOrder[i].GetName() == being3.GetName())
-			{
-				being3.Attack(player);
-			}
-			else
-			{
-				int tempY = GetChoice("\nChoose an enemy to focus on this turn (1,2, or 3)\n", (turnOrder.size() - 1));
-				int tempX = PlayerTurn();
-				switch (tempY)
+				if (turnOrder[i].GetName() == being.GetName())
 				{
-				case 1:
-					switch (tempX)
-					{
-					case 1:
-						player.Attack(being);
-						break;
-
-					case 2:
-						player.Heal();
-						break;
-
-					case 3:
-						if (player.Escape())
-						{
-							battleOver = true;
-							Print("\n\nYou Escaped!!!\n");
-							break;
-						}
-
-					default:
-						break;
-					}
-					break;
-
-				case 2:
-					switch (tempX)
-					{
-					case 1:
-						player.Attack(being2);
-						break;
-
-					case 2:
-						player.Heal();
-						break;
-
-					case 3:
-						if (player.Escape())
-						{
-							battleOver = true;
-							Print("\n\n\tYou Escaped!!!\n");
-							break;
-						}
-
-					default:
-						break;
-					}
-					break;
-
-				case 3:
-					switch (tempX)
-					{
-					case 1:
-						player.Attack(being3);
-						break;
-
-					case 2:
-						player.Heal();
-						break;
-
-					case 3:
-						if (player.Escape())
-						{
-							battleOver = true;
-							Print("\n\nYou Escaped!!!\n");
-							break;
-						}
-
-					default:
-						break;
-					}
-					break;
-
-				default:
-					break;
+					being.Attack(player);
 				}
+				else if (turnOrder[i].GetName() == being2.GetName())
+				{
+					being2.Attack(player);
 
+				}
+				else if (turnOrder[i].GetName() == being3.GetName())
+				{
+					being3.Attack(player);
+				}
+				else
+				{
+					int tempY = GetChoice("\nChoose an enemy to focus on this turn (1,2, or 3)\n", 3);
+					int tempX = PlayerTurn();
+					switch (tempY)
+					{
+					case 1:
+						switch (tempX)
+						{
+						case 1:
+							player.Attack(being);
+							break;
+						case 2:
+							player.Heal();
+							break;
+						case 3:
+							if (player.Escape())
+							{
+								battleOver = true;
+								Print("\n\nYou Escaped!!!\n");
+								break;
+							}
+						default:
+							break;
+						}
+						break;
+
+					case 2:
+						switch (tempX)
+						{
+						case 1:
+							player.Attack(being2);
+							break;
+						case 2:
+							player.Heal();
+							break;
+						case 3:
+							if (player.Escape())
+							{
+								battleOver = true;
+								Print("\n\n\tYou Escaped!!!\n");
+								break;
+							}
+						default:
+							break;
+						}
+						break;
+
+					case 3:
+						switch (tempX)
+						{
+						case 1:
+							player.Attack(being3);
+							break;
+						case 2:
+							player.Heal();
+							break;
+						case 3:
+							if (player.Escape())
+							{
+								battleOver = true;
+								Print("\n\nYou Escaped!!!\n");
+								break;
+							}
+						default:
+							break;
+						}
+						break;
+
+					default:
+						break;
+					}
+				}
 			}
 		}
 	} while (!battleOver);
@@ -508,8 +488,6 @@ bool EnoughDosh(Item item, int count, Being& merchant, Being& buyer, int& tempCo
 
 	return ans;
 }
-
-
 
 int Trading(Player& player, Being& merchant)
 {
@@ -578,7 +556,8 @@ int Trading(Player& player, Being& merchant)
 				}
 				else
 				{
-					tempCheck = merchant.ItemCounter(merchant.stock[choice2 - 1], merchant);
+					choice2--;
+					tempCheck = merchant.ItemCounter(merchant.stock[choice2], merchant);
 				}
 
 				if (tempCheck <= 0)
@@ -591,14 +570,14 @@ int Trading(Player& player, Being& merchant)
 
 			do
 			{
-				cout << "\nThere are " << tempCheck << "x " << merchant.stock[choice2 - 1].GetName() << " available\n";
+				cout << "\nThere are " << tempCheck << "x " << merchant.stock[choice2].GetName() << " available\n";
 				cout << "\nEnter a quantity to purchase: ";
 				cin >> choice3;
 				retry = cin.fail();
 				cin.clear();
 				cin.ignore(std::numeric_limits<int>::max(), '\n');
 
-				if (!EnoughDosh(merchant.stock[choice2 - 1], choice3, merchant, player, tempCost))
+				if (!EnoughDosh(merchant.stock[choice2], choice3, merchant, player, tempCost))
 				{
 					break;
 				}
@@ -612,13 +591,13 @@ int Trading(Player& player, Being& merchant)
 					retry = 1;
 				}
 
-				if (retry != 1 && (EnoughDosh(merchant.stock[choice2 - 1], choice3, merchant, player, tempCost)))
+				if (retry != 1 && (EnoughDosh(merchant.stock[choice2], choice3, merchant, player, tempCost)))
 				{
 					cout << "\nYou can afford this item. \nEnter '0' to cancel and '1' to continue\nContinue with Purchase?:";
 
 					do
 					{
-						if (!EnoughDosh(merchant.stock[choice2 - 1], choice3, merchant, player, tempCost))
+						if (!EnoughDosh(merchant.stock[choice2], choice3, merchant, player, tempCost))
 						{
 							break;
 						}
@@ -644,7 +623,7 @@ int Trading(Player& player, Being& merchant)
 
 					if (choice4 == 1)
 					{
-						merchant.Transfer(merchant.stock[choice2 - 1], choice3, merchant, player);
+						merchant.Transfer(merchant.stock[choice2], choice3, merchant, player);
 						merchant.Transfer(tempCost, merchant, player);
 					}
 					else
@@ -681,6 +660,7 @@ int Trading(Player& player, Being& merchant)
 				}
 				else
 				{
+					choice2--;
 					tempCheck = player.ItemCounter(player.stock[choice2], player);
 				}
 
@@ -695,14 +675,14 @@ int Trading(Player& player, Being& merchant)
 
 			do
 			{
-				cout << "\nThere are " << tempCheck << "x " << player.stock[choice2 - 1].GetName() << " available\n";
+				cout << "\nThere are " << tempCheck << "x " << player.stock[choice2].GetName() << " available\n";
 				cout << "Enter a quantity to sell: ";
 				cin >> choice3;
 				retry = cin.fail();
 				cin.clear();
 				cin.ignore(std::numeric_limits<int>::max(), '\n');
 
-				if (!EnoughDosh(merchant.stock[choice2 - 1], choice3, player, merchant, tempCost))
+				if (!EnoughDosh(merchant.stock[choice2], choice3, player, merchant, tempCost))
 				{
 					break;
 				}
@@ -717,7 +697,7 @@ int Trading(Player& player, Being& merchant)
 					retry = 1;
 				}
 
-				if (retry != 1 && (EnoughDosh(merchant.stock[choice2 - 1], choice3, player, merchant, tempCost)))
+				if (retry != 1 && (EnoughDosh(merchant.stock[choice2], choice3, player, merchant, tempCost)))
 				{
 					cout << "\nPotion Seller can afford this item. \nEnter '0' to cancel and '1' to continue\nContinue with Sale?:";
 
@@ -787,7 +767,6 @@ int Trading(Player& player, Being& merchant)
 	return 0;
 }
 
-
 int main()
 {
 	//Gamewide Variables
@@ -800,10 +779,9 @@ int main()
 	int choice2 = NULL;
 	bool inRoomTracker[3] = {false, false, false};
 	bool exitRoom = false;
-
 	string entryString = "";
 	
-	//ITEM CREATION-------------------------------------------------------------
+	//ITEM CREATION
 	Item healthgem;
 	healthgem.SetItemName("Health Gem");
 	healthgem.SetValue(100);
@@ -848,11 +826,7 @@ int main()
 	whiskey.SetItemName("Whiskey");
 	whiskey.SetValue(50);
 
-
-	
-
-
-	//PLAYER CREATION-----------------------------------------------------------
+	//PLAYER CREATION
 	Player player;
 	player.SetValue(1500);
 	cout << "Enter your name\n";
@@ -862,14 +836,12 @@ int main()
 	player.AddItem(healthgem, player.stock);
 	player.AddItem(healthgem, player.stock);
 
-	//Allow player customize attributes-----------------------------------------
+	//Allow player customize attributes
 	while (startingPoints>0)
 	{
 		int choice = 0;
-
 		cout << "\nYou have " << startingPoints << " skill points to allocate\nWhat will you level up?\nAttributes:\n\n";
 		cout << "1-Health\n2-Speed\n3-Strength\n4-Luck\n";
-
 		choice = GetChoice("\nWhat would you like to level up?\n", 4);
 
 		switch (choice)
@@ -877,19 +849,15 @@ int main()
 		case 1: //Health
 			player.SetHealth(player.GetHealth() + 10);
 			break;
-
 		case 2: //Speed
 			player.SetSpeed(player.GetSpeed() + 1);
 			break;
-
 		case 3: //Strength
 			player.SetStrength(player.GetStrength() + 1);
 			break;
-
 		case 4: //Luck
 			player.SetLuck(player.GetLuck() + 1);
 			break;
-
 		default:
 			continue;
 		}
@@ -983,9 +951,7 @@ int main()
 				if (player.GetLuck() >= 3)
 				{
 					player.AddItem(royalInvitation, player.stock);
-
 					Print("\nYou obtained a 'Royal Invitation' \n(Passive: Speed + 2)");
-
 					player.SetSpeed(player.GetSpeed() + 2);
 					PrintStats(player);
 				}
@@ -1007,13 +973,11 @@ int main()
 				case 1:
 					cout << "\n\nYou choose to leave the ghost and keep moving\n";
 					break;
-
 				case 2:
 					player.Attack(wanderingGhost);
 					Battle(player, wanderingGhost);
 					if (player.GetHealth() <= 0) { return 0; }
 					break;
-
 				default:
 					break;
 				}
@@ -1035,7 +999,6 @@ int main()
 	} while (!exitRoom);
 
 	delete &mimic;
-	
 
 	Print("\n\n You head into the next room...\n\n");
 	exitRoom = false;
@@ -1107,7 +1070,6 @@ int main()
 					Print("\nYou defeated the dark spirit!!!\n");
 					player.AddItem(warriorsRing, player.stock);
 					Print("\nAcquired: Warrior's Ring\nThis ring grants +2 Strength and +1 Luck\n");
-
 					choice1 = GetChoice("\nEquip Now?\n(1) - Yes\n(2) - No\n", 2);
 					switch (choice1)
 					{
@@ -1118,11 +1080,9 @@ int main()
 						Print("\nWarrior's ring equipped...\n");
 						PrintStats(player);
 						break;
-
 					case 2:
 						NULL;
 						break;
-
 					default:
 						break;
 					}
@@ -1140,14 +1100,12 @@ int main()
 			case 2:
 				Print("\n\nYou draw closer to the sound, and the smell of blood fills the air...\n\n");
 				Print("\n\nBefore you can turn back, three huge, hairy spiders surround you...\n");
-
 				Battle(player, spider1, spider2, spiderBoss);
 				if (player.GetHealth() <= 0) { return 0; }
 				
 				Print("\nVictory has improved your skills!!!\nStrength +1, Speed +1");
 				player.SetStrength(player.GetStrength() + 1);
 				player.SetSpeed(player.GetSpeed() + 1);
-
 				break;
 
 			default:
@@ -1178,7 +1136,7 @@ int main()
 	Print("You enter a circular hall, lined with candles.\n Three Merchants sit in a straight line. A stairway behind them leads to the final room...\n");
 	Print("\n\tYou can repeat actions in this room\n\n");
 
-	//Merchant Creation---------------------------------------------------------
+	//Merchant Creation
 	Being blessedMerchant;
 	blessedMerchant.SetName("Blessed Merchant");
 	blessedMerchant.SetHealth(777);
@@ -1295,21 +1253,3 @@ int main()
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
